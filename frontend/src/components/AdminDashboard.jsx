@@ -28,6 +28,7 @@ function AdminDashboard() {
 
   const handlePauseToggle = () => {
     setIsPaused(!isPaused);
+    // Optionally POST to backend to track paused state
   };
 
   const handleDrop = async (result) => {
