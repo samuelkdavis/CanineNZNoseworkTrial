@@ -1,0 +1,67 @@
+
+.public-queue {
+  max-width: 800px;
+  margin: auto;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+h1, h2 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+section {
+  margin-bottom: 2rem;
+}
+
+.on-course {
+  font-weight: bold;
+  color: green;
+  text-align: center;
+}
+
+.upcoming {
+  color: darkorange;
+  font-weight: 500;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  padding: 0.5rem;
+  margin-bottom: 0.3rem;
+  background-color: #f3f3f3;
+  border-radius: 4px;
+}
+
+.status-waiting {
+  border-left: 4px solid #ffcc00;
+}
+
+.status-on-course {
+  border-left: 4px solid green;
+}
+
+.status-done {
+  border-left: 4px solid gray;
+  color: gray;
+}
+
+.status-skipped {
+  border-left: 4px solid red;
+  color: red;
+}
+
+@media (max-width: 600px) {
+  .public-queue {
+    padding: 0.5rem;
+  }
+
+  li {
+    font-size: 0.9rem;
+  }
+}
