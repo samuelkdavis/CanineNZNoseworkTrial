@@ -13,10 +13,10 @@ function App() {
   const signOut = async () => {
     await auth.removeUser();
 
-    const clientId = "client id";
-    const logoutUri = "http://localhost:5173/";
-    const cognitoDomain = "cognito domain";
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}$logout_uri=${encodeURIComponent(logoutUri)}`;
+    const clientId = "7sn205necoj0cmj5u3mrc1cjee";
+    const logoutUri = "<logout uri>";
+    const cognitoDomain = "https://ap-southeast-2rgeisywkm.auth.ap-southeast-2.amazoncognito.com";
+    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   }
 
   switch (auth.activeNavigator) {
