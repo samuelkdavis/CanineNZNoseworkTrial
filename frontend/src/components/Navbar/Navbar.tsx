@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './navbar.css'
 //import amazonLogo from ""
-import logo from "./logo.jpg";
+import logo from "./logo backup.jpg";
 import { useAuth } from "react-oidc-context";
 
 const Navbar = ({ auth, signIn, signOut }) => {

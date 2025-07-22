@@ -6,11 +6,15 @@
     width: 100%;
 }
 
-.navbar-logo {
+.navbar-logo img{
     justify-content: flex-start;
+    width:30%;
+    height:auto;
 }
 
 .search-bar{
+    display:flex;
+    align-items: center;
     justify-content: center;
 }
 
