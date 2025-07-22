@@ -4,12 +4,19 @@ import './navbar.css'
 const amazonLogo = "todo";
 import { useAuth } from "react-oidc-context";
 
-const Navbar = ({ signOut }) => {
+const Navbar = ({ auth, signIn, signOut }) => {
     const [isResponsive, setIsResponsive] = useState(false);
-    const auth = useAuth();
 
-    const toggleResponsiveMenu = () => {
-        setIsResponsive(!isResponsive);
+    const signOutButton = () => {
+        if (auth.isAuthenticated) {
+            return <button onClick={signOut}>Sign out</button>
+        }
+    }
+
+        const signInButton = () => {
+        if (!auth.isAuthenticated) {
+            return <button onClick={signIn}>Sign in</button>
+        }
     }
 
     return (
@@ -26,13 +33,10 @@ const Navbar = ({ signOut }) => {
             <ul className={`navbar-links ${isResponsive ? 'active' : ''}`}>
                 {/* <li><button href="#">Sign In</button></li> */}
                 <li>
-                    {auth.isAuthenticated ? (
-                        <button onClick={signOut}>Sign out</button>
-                    ) : (
-                        <button onClick={() => auth.signinRedirect()}>Sign in</button>
-                    )
-                    }
-                    <a href="#">Sign In</a>
+                    {signOutButton()}
+                    {signInButton()}
+
+                    {/* <a href="#">Sign In</a> */}
                 </li>
             </ul>
         </nav>
