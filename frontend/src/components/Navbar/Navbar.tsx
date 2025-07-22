@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './navbar.css'
 //import amazonLogo from ""
-const amazonLogo = "todo";
+import logo from "./logo.jpg";
 import { useAuth } from "react-oidc-context";
 
 const Navbar = ({ auth, signIn, signOut }) => {
@@ -13,7 +13,7 @@ const Navbar = ({ auth, signIn, signOut }) => {
         }
     }
 
-        const signInButton = () => {
+    const signInButton = () => {
         if (!auth.isAuthenticated) {
             return <button onClick={signIn}>Sign in</button>
         }
@@ -22,7 +22,7 @@ const Navbar = ({ auth, signIn, signOut }) => {
     return (
         <nav className="navbar">
             <div className="navbar-logo">
-                <img src={amazonLogo} alt="Company Logo" />
+                <img src={logo} alt="Company Logo" />
             </div>
 
             <div className="search-bar">
@@ -31,13 +31,8 @@ const Navbar = ({ auth, signIn, signOut }) => {
             </div>
 
             <ul className={`navbar-links ${isResponsive ? 'active' : ''}`}>
-                {/* <li><button href="#">Sign In</button></li> */}
-                <li>
-                    {signOutButton()}
-                    {signInButton()}
-
-                    {/* <a href="#">Sign In</a> */}
-                </li>
+                {signOutButton()}
+                {signInButton()}
             </ul>
         </nav>
     )
