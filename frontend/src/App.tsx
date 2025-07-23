@@ -2,10 +2,8 @@
 
 import { useAuth } from "react-oidc-context";
 import Navbar from "./components/Navbar/Navbar";
+
 function App() {
-
-
-
     const auth = useAuth();
 
     if (auth.isLoading) {
