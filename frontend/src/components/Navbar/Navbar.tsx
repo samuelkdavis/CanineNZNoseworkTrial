@@ -8,7 +8,7 @@ const Navbar = () => {
     const signOutRedirect = () => {
         auth.removeUser();
         const clientId = "7sn205necoj0cmj5u3mrc1cjee";
-        const logoutUri = "<logout uri>";
+        const logoutUri = "http://localhost:5173";
         const cognitoDomain = "https://ap-southeast-2rgeisywkm.auth.ap-southeast-2.amazoncognito.com";
         window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
     };
