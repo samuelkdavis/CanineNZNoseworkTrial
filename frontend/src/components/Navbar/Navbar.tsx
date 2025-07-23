@@ -4,18 +4,26 @@ import './navbar.css'
 import logo from "./logo backup.jpg";
 import { useAuth } from "react-oidc-context";
 
-const Navbar = ({ auth, signIn, signOut }) => {
+const Navbar = () => {
+    const signOutRedirect = () => {
+        auth.removeUser();
+        const clientId = "7sn205necoj0cmj5u3mrc1cjee";
+        const logoutUri = "<logout uri>";
+        const cognitoDomain = "https://ap-southeast-2rgeisywkm.auth.ap-southeast-2.amazoncognito.com";
+        window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+    };
+    const auth = useAuth();
     const [isResponsive, setIsResponsive] = useState(false);
 
     const signOutButton = () => {
         if (auth.isAuthenticated) {
-            return <button onClick={signOut}>Sign out</button>
+            return <button onClick={signOutRedirect}>Sign out</button>
         }
     }
 
     const signInButton = () => {
         if (!auth.isAuthenticated) {
-            return <button onClick={signIn}>Sign in</button>
+            return <button onClick={() => auth.signinRedirect()}>Sign in</button>
         }
     }
 
