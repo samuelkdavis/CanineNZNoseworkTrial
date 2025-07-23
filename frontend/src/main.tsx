@@ -10,9 +10,9 @@ const cognitoAuthConfig = {
   redirect_uri: "http://localhost:5173",
   response_type: "code",
   scope: "email openid phone",
-  // onSigninCallback: (_user) => {
-  //   window.history.replaceState({}, document.title, window.location.pathname);
-  // }
+  onSigninCallback: (_user) => {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
 }
 
 const root = createRoot(document.getElementById('root')!);
