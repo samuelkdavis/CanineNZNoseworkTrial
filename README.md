@@ -24,3 +24,4 @@ cdk init app --language=typescript
 older versions of node may have issues
 
 https://medium.com/@johnelisaaa/setting-up-amazon-cognito-for-your-react-app-787de7999c07
+Jira project: https://samuelkdavis.atlassian.net/jira/software/projects/BROWSE/boards/3/backlog
