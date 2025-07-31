@@ -24,11 +24,10 @@ export default function TopNav() {
                     style={{ marginRight: "16px" }}
                 />
                 {/* Navigation Links */}
-                <TabNav.Link href="#" active>
-                    Account
+                <TabNav.Link href="/" active>
+                    Home
                 </TabNav.Link>
-                <TabNav.Link href="#">Documents</TabNav.Link>
-                <TabNav.Link href="#">Settings</TabNav.Link>
+                <TabNav.Link href="/settings">Settings</TabNav.Link>
                 {/* Spacer to push auth section to the right */}
                 <div style={{ flex: 1 }} />
                 {/* Auth Section on the right */}
