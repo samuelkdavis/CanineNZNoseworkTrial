@@ -33,6 +33,9 @@ export default function TopNav() {
                 <TabNav.Link href="/admin" active={location.pathname === '/admin'}>
                     Admin
                 </TabNav.Link>
+                <TabNav.Link href="/dogs" active={location.pathname === '/dogs'}>
+                    Dogs
+                </TabNav.Link>
                 {/* Spacer to push auth section to the right */}
                 <div style={{ flex: 1 }} />
                 {/* Auth Section on the right */}
