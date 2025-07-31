@@ -2,6 +2,7 @@
 
 import { useAuth } from "react-oidc-context";
 import TopNav from "./components/TopNav/TopNav";
+import TopNav2 from "./components/MaterialTopNav/TopNav2";
 
 function App() {
     const auth = useAuth();
@@ -18,6 +19,8 @@ function App() {
     return (
         <>
             <TopNav />
+
+            {/* <TopNav2 /> */}
 
             {auth.isAuthenticated ?
                 <div>
