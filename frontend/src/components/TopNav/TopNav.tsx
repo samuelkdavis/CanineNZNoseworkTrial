@@ -13,7 +13,7 @@ export default function TopNav() {
     };
     return (
         <TabNav.Root>
-            <Flex align="center" gap="4" px="4" py="2">
+            <Flex align="center" justify="between" px="4" py="2" style={{ width: "100%" }}>
                 {/* Logo */}
                 <Avatar
                     src={logo}
@@ -29,9 +29,9 @@ export default function TopNav() {
                 </TabNav.Link>
                 <TabNav.Link href="#">Documents</TabNav.Link>
                 <TabNav.Link href="#">Settings</TabNav.Link>
-                {/* Spacer */}
+                {/* Spacer to push auth section to the right */}
                 <div style={{ flex: 1 }} />
-                {/* Auth Section */}
+                {/* Auth Section on the right */}
                 {auth.isAuthenticated ? (
                     <DropdownMenu.Root>
                         <DropdownMenu.Trigger>
@@ -49,7 +49,7 @@ export default function TopNav() {
                             <DropdownMenu.Label>
                                 {auth.user?.profile?.email}
                             </DropdownMenu.Label>
-                            <DropdownMenu.Item onClick={() => signOutRedirect()}>
+                            <DropdownMenu.Item onClick={signOutRedirect}>
                                 Sign Out
                             </DropdownMenu.Item>
                         </DropdownMenu.Content>
