@@ -5,7 +5,7 @@ import './index.css'
 import App from './App.tsx'
 import "@radix-ui/themes/styles.css";
 import { Theme, ThemePanel } from "@radix-ui/themes";
-import MyApp from './MyApp.tsx';
+import TopNav from './components/TopNav/TopNav.tsx';
 
 const cognitoAuthConfig = {
     authority: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_RGEisYwKM",
@@ -23,8 +23,7 @@ root.render(
     <StrictMode>
         <AuthProvider {...cognitoAuthConfig}>
             <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%">
-                <MyApp />
-                <ThemePanel />
+                {/* <ThemePanel /> */}
                 <App />
             </Theme>
         </AuthProvider>

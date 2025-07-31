@@ -1,7 +1,7 @@
 // App.js
 
 import { useAuth } from "react-oidc-context";
-import Navbar from "./components/Navbar/Navbar";
+import TopNav from "./components/TopNav/TopNav";
 
 function App() {
     const auth = useAuth();
@@ -17,7 +17,8 @@ function App() {
 
     return (
         <>
-            <Navbar />
+            <TopNav />
+
             {auth.isAuthenticated ?
                 <div>
                     <pre> Hello: {auth.user?.profile.email} </pre>
