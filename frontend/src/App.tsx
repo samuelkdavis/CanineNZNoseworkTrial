@@ -2,7 +2,7 @@
 
 import { useAuth } from "react-oidc-context";
 import TopNav from "./components/TopNav/TopNav";
-import TopNav2 from "./components/MaterialTopNav/TopNav2";
+import LoginToken from "./components/LoginToken/LoginToken";
 
 function App() {
     const auth = useAuth();
@@ -15,22 +15,11 @@ function App() {
         return <div>Encountering error... {auth.error.message}</div>;
     }
 
-
     return (
         <>
             <TopNav />
-
             {/* <TopNav2 /> */}
-
-            {auth.isAuthenticated ?
-                <div>
-                    <pre> Hello: {auth.user?.profile.email} </pre>
-                    <pre> ID Token: {auth.user?.id_token} </pre>
-                    <pre> Access Token: {auth.user?.access_token} </pre>
-                    <pre> Refresh Token: {auth.user?.refresh_token} </pre>
-                </div>
-                : <div></div>
-            }
+            <LoginToken />
         </>
     );
 }
