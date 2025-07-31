@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import TopNav from "./components/TopNav/TopNav";
 import LoginToken from "./components/LoginToken/LoginToken";
 import SettingsPage from "./components/SettingsPage/SettingsPage";
+import AdminPage from "./components/AdminPage/AdminPage";
 
 function App() {
 
@@ -12,10 +13,10 @@ function App() {
         <>
             <BrowserRouter>
                 <TopNav />
-
                 <Routes>
                     <Route path="/" element={<LoginToken />} />
                     <Route path="/settings" element={<SettingsPage />} />
+                    <Route path="/admin" element={<AdminPage />} />
                     {/* Add more routes as needed */}
                 </Routes>
                 {/* <TopNav2 /> */}
