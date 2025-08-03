@@ -1,2 +1,6 @@
 ./frontend/node_modules/
 ./infra/node_modules/
+api/Nosework/.vs/
+api/Nosework/Nosework.Api/obj/
+api/Nosework/Nosework.Api/bin/
+api/Nosework/Nosework.Api/Nosework.Api.csproj.user

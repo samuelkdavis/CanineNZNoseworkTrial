@@ -1,0 +1,6 @@
+@Nosework.Api_HostAddress = http://localhost:5244
+
+GET {{Nosework.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
