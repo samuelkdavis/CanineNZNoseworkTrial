@@ -4,6 +4,16 @@ import { Navigate } from "react-router-dom";
 //Authentication = are you who you say you are?
 //Authorisation = do you have permission to do this?
 
+function IsAdmin(auth) {
+    const roles = auth.user?.profile["cognito:groups"] || [];
+    console.log("Roles:", roles); // Debugging line to check roles
+    // Adjust the above line based on your token's claim structure
+    const isAdmin = Array.isArray(roles)
+        ? roles.includes("admin")
+        : roles === "admin";
+    return isAdmin;
+}
+
 function RequireAdmin({ children }) {
     const auth = useAuth();
     console.log("Is auth loading: " + auth.isLoading); // Debugging line to check loading state
@@ -15,13 +25,7 @@ function RequireAdmin({ children }) {
             return <Navigate to="/" replace />;
         }
 
-        const roles = auth.user?.profile["cognito:groups"] || [];
-        console.log("Roles:", roles); // Debugging line to check roles
-        // Adjust the above line based on your token's claim structure
-        const isAdmin = Array.isArray(roles)
-            ? roles.includes("admin")
-            : roles === "admin";
-
+        const isAdmin = IsAdmin(auth);
 
         if (!isAdmin) {
             console.log("User is not an admin, access denied");
