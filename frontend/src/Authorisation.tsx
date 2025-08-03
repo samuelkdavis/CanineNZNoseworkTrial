@@ -55,4 +55,4 @@ const cognitoAuthConfig = {
     }
 }
 
-export { signOutRedirect, cognitoAuthConfig, RequireAdmin };
+export { signOutRedirect, cognitoAuthConfig, RequireAdmin, IsAdmin};

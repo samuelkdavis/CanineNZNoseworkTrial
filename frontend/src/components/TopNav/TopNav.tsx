@@ -1,7 +1,7 @@
 import { Flex, TabNav, Avatar, DropdownMenu } from "@radix-ui/themes";
 import { useAuth } from "react-oidc-context";
 import logo from "./logo backup.jpg"; // Adjust path if needed
-import { signOutRedirect } from "../../Authorisation";
+import { signOutRedirect, IsAdmin } from "../../Authorisation";
 import { useLocation } from "react-router-dom";
 
 export default function TopNav() {
@@ -9,6 +9,7 @@ export default function TopNav() {
 
     // If we don't explicitly use the location, the location shows the last route visited
     const location = useLocation();
+    const isAdmin = IsAdmin(auth);
 
     return (
         <TabNav.Root>
@@ -29,9 +30,10 @@ export default function TopNav() {
                 <TabNav.Link href="/settings" active={location.pathname === '/settings'}>
                     Settings
                 </TabNav.Link>
-                <TabNav.Link href="/admin" active={location.pathname === '/admin'}>
-                    Admin
-                </TabNav.Link>
+                {isAdmin && (
+                    < TabNav.Link href="/admin" active={location.pathname === '/admin'}>
+                        Admin
+                    </TabNav.Link>)}
                 <TabNav.Link href="/dogs" active={location.pathname === '/dogs'}>
                     Dogs
                 </TabNav.Link>
@@ -67,6 +69,6 @@ export default function TopNav() {
                     </TabNav.Link>
                 )}
             </Flex>
-        </TabNav.Root>
+        </TabNav.Root >
     );
 }
