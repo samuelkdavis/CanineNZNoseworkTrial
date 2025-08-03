@@ -4,7 +4,32 @@ import { Navigate } from "react-router-dom";
 //Authentication = are you who you say you are?
 //Authorisation = do you have permission to do this?
 
+function RequireAdmin({ children }) {
+    const auth = useAuth();
+    console.log("Is auth loading: " + auth.isLoading); // Debugging line to check loading state
+    if (auth.isLoading) {
+        return <div>Loading...</div>;
+    } else {
+        if (!auth.isAuthenticated) {
+            console.log("User is not authenticated, redirecting to login");
+            return <Navigate to="/" replace />;
+        }
 
+        const roles = auth.user?.profile["cognito:groups"] || [];
+        console.log("Roles:", roles); // Debugging line to check roles
+        // Adjust the above line based on your token's claim structure
+        const isAdmin = Array.isArray(roles)
+            ? roles.includes("admin")
+            : roles === "admin";
+
+
+        if (!isAdmin) {
+            console.log("User is not an admin, access denied");
+            return <div>Access denied. Admins only.</div>;
+        }
+        return children;
+    }
+}
 
 function signOutRedirect(auth) {
 
@@ -26,4 +51,4 @@ const cognitoAuthConfig = {
     }
 }
 
-export { signOutRedirect, cognitoAuthConfig };
+export { signOutRedirect, cognitoAuthConfig, RequireAdmin };

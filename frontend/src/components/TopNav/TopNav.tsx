@@ -2,9 +2,13 @@ import { Flex, TabNav, Avatar, DropdownMenu } from "@radix-ui/themes";
 import { useAuth } from "react-oidc-context";
 import logo from "./logo backup.jpg"; // Adjust path if needed
 import { signOutRedirect } from "../../Authorisation";
+import { useLocation } from "react-router-dom";
 
 export default function TopNav() {
     const auth = useAuth();
+
+    // If we don't explicitly use the location, the location shows the last route visited
+    const location = useLocation();
 
     return (
         <TabNav.Root>
@@ -31,6 +35,7 @@ export default function TopNav() {
                 <TabNav.Link href="/dogs" active={location.pathname === '/dogs'}>
                     Dogs
                 </TabNav.Link>
+
                 {/* Spacer to push auth section to the right */}
                 <div style={{ flex: 1 }} />
                 {/* Auth Section on the right */}
