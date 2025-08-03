@@ -4,29 +4,7 @@ import { Navigate } from "react-router-dom";
 //Authentication = are you who you say you are?
 //Authorisation = do you have permission to do this?
 
-function isRoleAdmin() {
-    const auth = useAuth();
-    const roles = auth.user?.profile?.role || auth.user?.profile?.roles || [];
-    // Adjust the above line based on your token's claim structure
-    const isAdmin = Array.isArray(roles)
-        ? roles.includes("admin")
-        : roles === "admin";
-    return isAdmin;
-}
 
-function RequireAdmin({ children }) {
-    const auth = useAuth();
-
-    const isAdmin = isRoleAdmin();
-
-    if (!auth.isAuthenticated) {
-        return <Navigate to="/" replace />;
-    }
-    if (!isAdmin) {
-        return <div>Access denied. Admins only.</div>;
-    }
-    return children;
-}
 
 function signOutRedirect(auth) {
 
@@ -48,4 +26,4 @@ const cognitoAuthConfig = {
     }
 }
 
-export { isRoleAdmin, RequireAdmin, signOutRedirect, cognitoAuthConfig };
+export { signOutRedirect, cognitoAuthConfig };
