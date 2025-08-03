@@ -11,6 +11,7 @@ namespace Nosework.Api.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
+
         private readonly ILogger<WeatherForecastController> _logger;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
@@ -19,15 +20,17 @@ namespace Nosework.Api.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public object Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            var z = new[] { 
+                new { DogName = "Buddy", Age = 4 },
+                new { DogName = "Bella", Age = 5 },
+                new { DogName = "Charlie", Age = 2 },
+                new { DogName = "Lucy", Age = 4 },
+
+            }.ToList();
+
+            return z;
         }
     }
 }
