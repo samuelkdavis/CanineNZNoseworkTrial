@@ -6,17 +6,9 @@ import App from './App.tsx'
 import "@radix-ui/themes/styles.css";
 import { Theme, ThemePanel } from "@radix-ui/themes";
 import TopNav from './components/TopNav/TopNav.tsx';
+import { cognitoAuthConfig } from './Authorisation.tsx';
 
-const cognitoAuthConfig = {
-    authority: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_RGEisYwKM",
-    client_id: "7sn205necoj0cmj5u3mrc1cjee",
-    redirect_uri: "http://localhost:5173",
-    response_type: "code",
-    scope: "email openid phone",
-    onSigninCallback: (_user) => {
-        window.history.replaceState({}, document.title, window.location.pathname);
-    }
-}
+
 
 const root = createRoot(document.getElementById('root')!);
 root.render(

@@ -1,16 +1,11 @@
 import { Flex, TabNav, Avatar, DropdownMenu } from "@radix-ui/themes";
 import { useAuth } from "react-oidc-context";
 import logo from "./logo backup.jpg"; // Adjust path if needed
+import { signOutRedirect } from "../../Authorisation";
 
 export default function TopNav() {
     const auth = useAuth();
-    const signOutRedirect = () => {
-        auth.removeUser();
-        const clientId = "7sn205necoj0cmj5u3mrc1cjee";
-        const logoutUri = "http://localhost:5173";
-        const cognitoDomain = "https://ap-southeast-2rgeisywkm.auth.ap-southeast-2.amazoncognito.com";
-        window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
-    };
+
     return (
         <TabNav.Root>
             <Flex align="center" justify="between" px="4" py="2" style={{ width: "100%" }}>
@@ -56,7 +51,7 @@ export default function TopNav() {
                             <DropdownMenu.Label>
                                 {auth.user?.profile?.email}
                             </DropdownMenu.Label>
-                            <DropdownMenu.Item onClick={signOutRedirect}>
+                            <DropdownMenu.Item onClick={() => signOutRedirect(auth)}>
                                 Sign Out
                             </DropdownMenu.Item>
                         </DropdownMenu.Content>
