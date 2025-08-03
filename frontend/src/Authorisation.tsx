@@ -14,6 +14,17 @@ function IsAdmin(auth) {
     return isAdmin;
 }
 
+/*
+Cognito token example:
+{
+  "at_hash": "xW-NHbspNLPsA0geRjE_rg",
+  "sub": "099ef438-f031-70ca-0efa-535b6ee92161",
+  "cognito:groups": [
+    "admin"
+  ],
+  ...
+*/
+
 function RequireAdmin({ children }) {
     const auth = useAuth();
     console.log("Is auth loading: " + auth.isLoading); // Debugging line to check loading state
