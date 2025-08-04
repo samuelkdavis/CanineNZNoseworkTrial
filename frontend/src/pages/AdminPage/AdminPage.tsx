@@ -8,6 +8,7 @@ function AdminPage() {
             placeholder="Dog Name"
             style={{ padding: "8px", marginBottom: "16px", width: "100%" }}
         />
+        <div>Upload CSV here, view entries</div>
         <button>Add dog</button>
             <DnDTable />
             <div style={{ padding: 24 }}>

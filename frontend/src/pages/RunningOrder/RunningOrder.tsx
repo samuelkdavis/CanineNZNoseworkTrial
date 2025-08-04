@@ -5,7 +5,6 @@ import { LineAxisOutlined } from "@mui/icons-material";
 import useEffectAsync from "../../UseEffectAsync";
 import axios from "axios";
 
-// payload - {"dogName":"Buddy","age":4}
 function RunningOrder() {
     type Dog = {
         orderId: number;
@@ -16,6 +15,13 @@ function RunningOrder() {
 
     const [dogs, setDogs] = React.useState<Dog[]>([]);
 
+    /*
+    Payload example:
+    [
+        { "dogName": "Buddy", "handlerName": "Dennis Reynolds", "orderId": 1, "class": "Novice" },
+        { "dogName": "Rum Ham", "handlerName": "Frank Reynolds", "orderId": 2, "class": "Intermediate" }
+    ]
+    */
     useEffectAsync(async () => {
         try {
             const result = await axios.get('https://localhost:7276/runningorder');
@@ -53,4 +59,5 @@ function RunningOrder() {
 
     );
 }
+
 export default RunningOrder;

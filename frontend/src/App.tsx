@@ -8,8 +8,6 @@ import RunningOrder from "./pages/RunningOrder/RunningOrder";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import { RequireAdmin } from "./Authorisation";
 
-
-
 function App() {
 
     return (
