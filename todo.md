@@ -1,0 +1,1 @@
+Figure out how to debug integration tests accessing AWS

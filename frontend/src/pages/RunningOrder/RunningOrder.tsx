@@ -56,7 +56,6 @@ function RunningOrder() {
                 </Table.Body>
             </Table.Root>
         </>
-
     );
 }
 

@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36310.24 d17.14
+VisualStudioVersion = 17.14.36310.24
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosework.Api", "Nosework.Api\Nosework.Api.csproj", "{BE504E44-A620-4881-98B0-BAB0279EAFAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosework.Core", "Nosework.Core\Nosework.Core.csproj", "{1F343562-3CEE-4082-A1B4-3EC8272F8988}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nosework.Tests", "Nosework.Tests\Nosework.Tests.csproj", "{4959FFE0-E198-4642-BC08-3460C18D56E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{BE504E44-A620-4881-98B0-BAB0279EAFAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE504E44-A620-4881-98B0-BAB0279EAFAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE504E44-A620-4881-98B0-BAB0279EAFAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F343562-3CEE-4082-A1B4-3EC8272F8988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F343562-3CEE-4082-A1B4-3EC8272F8988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F343562-3CEE-4082-A1B4-3EC8272F8988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F343562-3CEE-4082-A1B4-3EC8272F8988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4959FFE0-E198-4642-BC08-3460C18D56E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4959FFE0-E198-4642-BC08-3460C18D56E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4959FFE0-E198-4642-BC08-3460C18D56E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4959FFE0-E198-4642-BC08-3460C18D56E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

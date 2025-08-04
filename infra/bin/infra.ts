@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
-import { InfraStack } from '../lib/infra-stack';
+import { InfraStack as DogSportsStack } from '../lib/infra-stack';
 
 const app = new cdk.App();
-new InfraStack(app, 'InfraStack', {
+new DogSportsStack(app, 'DogSports', {
   env: { account: '956470542728', region: 'ap-southeast-2' },
 
 
