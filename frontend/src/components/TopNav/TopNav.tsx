@@ -34,8 +34,8 @@ export default function TopNav() {
                     < TabNav.Link href="/admin" active={location.pathname === '/admin'}>
                         Admin
                     </TabNav.Link>)}
-                <TabNav.Link href="/dogs" active={location.pathname === '/dogs'}>
-                    Dogs
+                <TabNav.Link href="/running-order" active={location.pathname === '/running-order'}>
+                    Running Order
                 </TabNav.Link>
 
                 {/* Spacer to push auth section to the right */}
