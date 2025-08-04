@@ -4,9 +4,9 @@ import { useAuth } from "react-oidc-context";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import TopNav from "./components/TopNav/TopNav";
 import LoginToken from "./components/LoginToken/LoginToken";
-import SettingsPage from "./components/SettingsPage/SettingsPage";
-import AdminPage from "./components/AdminPage/AdminPage";
-import DogsPage from "./components/DogsPage/DogsPage";
+import SettingsPage from "./pages/SettingsPage/SettingsPage";
+import DogsPage from "./pages/DogsPage/DogsPage";
+import AdminPage from "./pages/AdminPage/AdminPage";
 import { RequireAdmin } from "./Authorisation";
 
 
@@ -20,15 +20,14 @@ function App() {
                 <Routes>
                     <Route path="/" element={<LoginToken />} />
                     <Route path="/settings" element={<SettingsPage />} />
-                    <Route
-                        path="/admin"
+                    <Route path="/dogs" element={<DogsPage />} />
+                    <Route path="/admin"
                         element={
                             <RequireAdmin>
                                 <AdminPage />
                             </RequireAdmin>
                         }
                     />
-                    <Route path="/dogs" element={<DogsPage />} />
                 </Routes>
             </BrowserRouter>
         </>

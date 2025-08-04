@@ -1,4 +1,4 @@
-import DnDTable from "../Table/DnDTable";
+import DnDTable from "../../components/Table/DnDTable";
 
 function AdminPage() {
     return (
