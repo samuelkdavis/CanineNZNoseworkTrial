@@ -1,8 +1,26 @@
 import { Table } from "@radix-ui/themes";
 import DnDTable from "../../components/Table/DnDTable";
+import React, { useEffect } from "react";
+import { LineAxisOutlined } from "@mui/icons-material";
+import useEffectAsync from "../../UseEffectAsync";
+import axios from "axios";
 
 // payload - {"dogName":"Buddy","age":4}
 function DogsPage() {
+
+    const [dogs, setDogs] = React.useState([]);
+
+    useEffectAsync(async () => {
+        try {
+            const result = await axios.get('https://localhost:7276/weatherforecast');
+            console.log("Fetched dogs:", result.data);
+            setDogs(result.data);
+        }catch(error){
+            console.error("Error fetching dogs:", error);
+        }
+
+    }, []);
+
     return (
         <>
             <div style={{ padding: 24 }}>
