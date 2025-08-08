@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
+using Nosework.Core;
+using System.Formats.Asn1;
+using System.Globalization;
 
 namespace Nosework.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class RunningOrder
+    public class RunningOrder : ControllerBase
     {
         [HttpGet(Name = "GetRunningOrder")]
         public object Get()
@@ -19,6 +22,31 @@ namespace Nosework.Api.Controllers
             }.ToList();
 
             return dogs;
+        }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadCsv(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            if (!Path.GetExtension(file.FileName).Equals(".csv", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest("Only CSV files are allowed.");
+            }
+
+            using (var stream = file.OpenReadStream())
+            {
+                var csvProcessor = new CsvProcessor();
+                csvProcessor.ReadCsv(stream);
+            }
+
+
+            return Ok();
+
+
         }
     }
 }
