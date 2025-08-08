@@ -6,12 +6,14 @@ export class DataStoreConstruct extends Construct {
 
     constructor(scope: Construct, id: string, props) {
         super(scope, id);
-        const globalTable = new dynamodb.TableV2(this, 'GlobalTable', {
-            partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
-            // const table = new dynamodb.Table(this, 'MyTable', {
-            //     partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
-            // });
-        }
-        );
+        const globalTable = new dynamodb.TableV2(this, 'dogs', {
+            partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
+        });
+        
+        new cdk.CfnOutput(this, 'DogsTableName', {
+            value: globalTable.tableName,
+            description: 'The name of the DynamoDB table for storing dog data',
+            exportName: 'DogsTableName',
+        });
     }
 }
