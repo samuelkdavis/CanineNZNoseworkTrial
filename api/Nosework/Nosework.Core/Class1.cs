@@ -1,18 +1,24 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
+using Amazon.Runtime;
 using System.Threading.Tasks;
 
 namespace Nosework.Core
 {
     public class Class1
     {
+        private readonly AWSCredentials _credentials;
+        private readonly AmazonDynamoDBClient dynamoClient;
+
+        public Class1(AmazonDynamoDBClient dynamoClient)
+        {
+            this.dynamoClient = dynamoClient;
+        }
         public async Task SaveStuffToDynamo()
         {
-            var amazonDynamoDB = new AmazonDynamoDBClient();
-
             var item = new Dictionary<string, AttributeValue>
             {
-                ["pk"] = new AttributeValue { S = "The Great Gatsby" },
+                ["pk"] = new AttributeValue { S = "The Great Gatsby2: the gatsbying" },
                 ["author"] = new AttributeValue { S = "F. Scott Fitzgerald" },
                 ["year"] = new AttributeValue { N = "1925" }
             };
@@ -24,7 +30,7 @@ namespace Nosework.Core
                 Item = item
             };
 
-            await amazonDynamoDB.PutItemAsync(request);
+            await dynamoClient.PutItemAsync(request);
 
         }
     }
