@@ -7,10 +7,10 @@ namespace Nosework.Core
 {
     public class DogRepository
     {
-        private readonly AmazonDynamoDBClient dynamoClient;
+        private readonly IAmazonDynamoDB dynamoClient;
         private readonly string? _tableName;
 
-        public DogRepository(AmazonDynamoDBClient dynamoClient, string? tableName = null)
+        public DogRepository(IAmazonDynamoDB dynamoClient, string? tableName = null)
         {
             this.dynamoClient = dynamoClient;
             _tableName = tableName;

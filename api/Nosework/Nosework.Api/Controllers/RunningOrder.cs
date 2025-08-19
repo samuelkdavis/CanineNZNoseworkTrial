@@ -1,3 +1,6 @@
+using Amazon;
+using Amazon.DynamoDBv2;
+using Amazon.Runtime.CredentialManagement;
 using Microsoft.AspNetCore.Mvc;
 using Nosework.Core;
 using System.Formats.Asn1;
@@ -9,6 +12,13 @@ namespace Nosework.Api.Controllers
     [Route("[controller]")]
     public class RunningOrder : ControllerBase
     {
+        private readonly IAmazonDynamoDB _dbClient;
+
+        public RunningOrder(IAmazonDynamoDB dbClient)
+        {
+            _dbClient = dbClient;
+        }
+
         [HttpGet(Name = "GetRunningOrder")]
         public object Get()
         {
@@ -36,27 +46,33 @@ namespace Nosework.Api.Controllers
             {
                 return BadRequest("Only CSV files are allowed.");
             }
-            List<CsvRecord> records = [];
-            using (var stream = file.OpenReadStream())
+            try
             {
-                var csvProcessor = new CsvProcessor();
-                records = csvProcessor.ReadCsv(stream);
+                List<CsvRecord> records = [];
+                using (var stream = file.OpenReadStream())
+                {
+                    var csvProcessor = new CsvProcessor();
+                    records = csvProcessor.ReadCsv(stream);
+                }
+                if (records.Count == 0)
+                {
+                    return BadRequest("The uploaded CSV file is empty or invalid.");
+                }
+
+                var dogs = new DogMapper().Map(records);
+
+                foreach (var dog in dogs)
+                {
+                    var dogdbname = "DogSports-noseworkdatastoredogs6D336E12-HV1NY32291RK";
+                    await new DogRepository(_dbClient, dogdbname).Create(dog);
+                }
+
+                return Ok();
             }
-            if (records.Count == 0)
+            catch (Exception ex)
             {
-                return BadRequest("The uploaded CSV file is empty or invalid.");
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
-
-            var dogs = new DogMapper().Map(records);
-            
-            foreach(var dog in dogs)
-            {
-                await new DogRepository(new Amazon.DynamoDBv2.AmazonDynamoDBClient(), "Dogs").Create(dog);
-            }
-
-            return Ok();
-
-
         }
     }
 }

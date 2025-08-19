@@ -1,4 +1,9 @@
 
+using Amazon.DynamoDBv2;
+using Amazon.Runtime;
+using Amazon.Runtime.CredentialManagement;
+using Microsoft.Extensions.Configuration;
+
 namespace Nosework.Api
 {
     public class Program
@@ -10,6 +15,8 @@ namespace Nosework.Api
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+            builder.Services.AddAWSService<IAmazonDynamoDB>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -37,6 +44,9 @@ namespace Nosework.Api
 
 
             app.MapControllers();
+
+            // var awsOptions = builder.Configuration.GetAWSOptions();
+            // Console.WriteLine($"Profile: {awsOptions.Profile}");
 
             app.Run();
         }
