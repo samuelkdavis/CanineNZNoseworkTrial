@@ -34,6 +34,11 @@ add claims to cognito token - pre-token generation lambda trigger:
 You can customize the access and ID tokens that Amazon Cognito passes to your app. In a Pre token generation Lambda trigger, you can add, modify, and suppress token claims. The pre token generation trigger is a Lambda function that Amazon Cognito sends a default set of claims to. The claims include OAuth 2.0 scopes, user pool group membership, user attributes, and others. The function can then take the opportunity to make changes at runtime and return updated token claims to Amazon Cognito.
 
 
+To inject the correct aws profile for local development:
+* Add the developer profile to appsettings.Development.json
+* Add AWS support boilerplate in program.cs
+* Use dependency injection to resolve dynamodb and other resources
+
 Roles:
 * developer (me)
 * admin (kelly, supreet)
