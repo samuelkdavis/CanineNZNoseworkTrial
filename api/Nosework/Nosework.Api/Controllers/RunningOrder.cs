@@ -36,13 +36,23 @@ namespace Nosework.Api.Controllers
             {
                 return BadRequest("Only CSV files are allowed.");
             }
-
+            List<CsvRecord> records = [];
             using (var stream = file.OpenReadStream())
             {
                 var csvProcessor = new CsvProcessor();
-                csvProcessor.ReadCsv(stream);
+                records = csvProcessor.ReadCsv(stream);
+            }
+            if (records.Count == 0)
+            {
+                return BadRequest("The uploaded CSV file is empty or invalid.");
             }
 
+            var dogs = new DogMapper().Map(records);
+            
+            foreach(var dog in dogs)
+            {
+                await new DogRepository(new Amazon.DynamoDBv2.AmazonDynamoDBClient(), "Dogs").Create(dog);
+            }
 
             return Ok();
 
