@@ -20,17 +20,11 @@ namespace Nosework.Api.Controllers
         }
 
         [HttpGet(Name = "GetRunningOrder")]
-        public object Get()
+        public async Task<List<Dog>> Get()
         {
-            var dogs = new[] {
-                new { DogName = "Buddy", HandlerName = "Dennis Reynolds", OrderId = 1, Class = "Novice" },
-                new { DogName = "Rum Ham", HandlerName = "Frank Reynolds", OrderId = 2, Class = "Intermediate" },
-                new { DogName = "Peter Nincompoop", HandlerName = "Charlie Kelly", OrderId = 3, Class = "Novice" },
-                new { DogName = "Poppins", HandlerName = "Mac", OrderId = 4, Class = "Intermediate" },
-                new { DogName = "Belle", HandlerName = "Dee Reynolds", OrderId = 5, Class = "Intermediate" },
-
-            }.ToList();
-
+            var dogdbname = "DogSports-noseworkdatastoredogs6D336E12-HV1NY32291RK";
+            var dogRepo = new DogRepository(_dbClient, dogdbname);
+            var dogs = await dogRepo.Read();
             return dogs;
         }
 

@@ -24,7 +24,7 @@ namespace Nosework.Core
                 ["DogName"] = new AttributeValue { S = dog.DogName },
                 ["HandlerName"] = new AttributeValue { S = dog.HandlerName },
                 ["Class"] = new AttributeValue { S = dog.Class },
-                ["Order"] = new AttributeValue { N = Convert.ToString(dog.Order)},
+                ["Order"] = new AttributeValue { N = Convert.ToString(dog.Order) },
                 ["PhoneNumber"] = new AttributeValue { S = dog.PhoneNumber },
                 ["Email"] = new AttributeValue { S = dog.Email }
             };
@@ -36,6 +36,39 @@ namespace Nosework.Core
             };
 
             await dynamoClient.PutItemAsync(request);
+        }
+
+        public async Task<List<Dog>> Read()
+        {
+            var dogs = new List<Dog>();
+            Dictionary<string, AttributeValue>? lastEvaluatedKey = null;
+
+            do
+            {
+                var request = new ScanRequest
+                {
+                    TableName = _tableName,
+                    ExclusiveStartKey = lastEvaluatedKey
+                };
+
+                var response = await dynamoClient.ScanAsync(request);
+
+                dogs.AddRange(response.Items.Select(item => new Dog
+                {
+                    Id = Guid.Parse(item["Id"].S),
+                    DogName = item["DogName"].S,
+                    HandlerName = item["HandlerName"].S,
+                    Class = item["Class"].S,
+                    Order = int.Parse(item["Order"].N),
+                    PhoneNumber = item["PhoneNumber"].S,
+                    Email = item["Email"].S
+                }));
+
+                lastEvaluatedKey = response.LastEvaluatedKey;
+            }
+            while (lastEvaluatedKey != null && lastEvaluatedKey.Count > 0);
+
+            return dogs;
         }
 
     }

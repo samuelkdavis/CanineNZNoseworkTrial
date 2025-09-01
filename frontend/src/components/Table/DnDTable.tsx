@@ -27,7 +27,7 @@ const initialDogs = [
 
 function SortableRow({ dog, index }) {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-        useSortable({ id: dog.id });
+        useSortable({ id: dog.order });
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -36,10 +36,20 @@ function SortableRow({ dog, index }) {
         cursor: "grab",
     };
 
+    /**                            <Table.ColumnHeaderCell>Order</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell>Dog Name</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell>Handler Name</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell>Class</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell>Phone Number</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell> */
     return (
         <Table.Row ref={setNodeRef} style={style} {...attributes} {...listeners}>
+            <Table.Cell>{dog.order}</Table.Cell>
             <Table.Cell>{dog.dogName}</Table.Cell>
-            <Table.Cell>{dog.orderId}</Table.Cell>
+            <Table.Cell>{dog.handlerName}</Table.Cell>
+            <Table.Cell>{dog.class}</Table.Cell>
+            <Table.Cell>{dog.phoneNumber}</Table.Cell>
+            <Table.Cell>{dog.email}</Table.Cell>
         </Table.Row>
     );
 }
@@ -59,8 +69,8 @@ export default function DnDTable() {
     const handleDragEnd = (event) => {
         const { active, over } = event;
         if (active.id !== over?.id) {
-            const oldIndex = dogs.findIndex((dog) => dog.orderId === active.id);
-            const newIndex = dogs.findIndex((dog) => dog.orderId === over.id);
+            const oldIndex = dogs.findIndex((dog) => dog.order === active.id);
+            const newIndex = dogs.findIndex((dog) => dog.order === over.id);
             setDogs((dogs) => arrayMove(dogs, oldIndex, newIndex));
         }
     };
@@ -71,17 +81,21 @@ export default function DnDTable() {
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
         >
-            <SortableContext items={dogs.map((dog, idx) => dog.orderId)} strategy={verticalListSortingStrategy}>
+            <SortableContext items={dogs.map((dog, idx) => dog.order)} strategy={verticalListSortingStrategy}>
                 <Table.Root>
                     <Table.Header>
                         <Table.Row>
+                            <Table.ColumnHeaderCell>Order</Table.ColumnHeaderCell>
                             <Table.ColumnHeaderCell>Dog Name</Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>Age</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell>Handler Name</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell>Class</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell>Phone Number</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
                         {dogs.map((dog, idx) => (
-                            <SortableRow key={dog.orderId} dog={dog} index={idx} />
+                            <SortableRow key={dog.order} dog={dog} index={idx} />
                         ))}
                     </Table.Body>
                 </Table.Root></SortableContext>
