@@ -17,6 +17,7 @@ import { CSS } from "@dnd-kit/utilities";
 import axios from "axios";
 import useEffectAsync from "../../helpers/UseEffectAsync";
 import type { Dog } from "../../repositories/Dog";
+import { ServiceContext } from "../../repositories/ServiceContext";
 
 const initialDogs = [
     { id: "1", name: "Buddy", age: 3 },
@@ -55,13 +56,15 @@ function SortableRow({ dog, index }) {
 }
 
 export default function DnDTable() {
+    const services = React.useContext(ServiceContext);
+
     const [dogs, setDogs] = React.useState<Dog[]>([]);
 
     useEffectAsync(async () => {
-        var response = await axios.get("https://localhost:7276/runningorder");
+        var dogsResponse: Dog[] = await services?.dogRunOrderRepository.Get() ?? [];
 
-        setDogs(response.data);
-        console.log(response.data);
+        setDogs(dogsResponse);
+        console.log(dogsResponse);
     }, []);
 
     const sensors = useSensors(useSensor(PointerSensor));

@@ -1,8 +1,10 @@
 import axios from "axios";
 import DnDTable from "../../components/Table/DnDTable";
 import React, { useRef } from "react";
+import { ServiceContext } from "../../repositories/ServiceContext";
 
 function AdminPage() {
+    const services = React.useContext(ServiceContext);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -13,15 +15,8 @@ function AdminPage() {
             console.error("No file selected");
             return;
         }
-        const formData = new FormData();
-        formData.append("file", file);
-
-        var headers = {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            }
-        };
-        await axios.post("https://localhost:7276/runningorder/upload", formData, headers);
+        console.log("Uploading file:", file.name);
+        await services?.dogRunOrderRepository.Upload(file)
     };
 
     return (

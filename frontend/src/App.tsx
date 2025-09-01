@@ -7,9 +7,12 @@ import SettingsPage from "./pages/SettingsPage/SettingsPage";
 import RunningOrder from "./pages/RunningOrder/RunningOrder";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import { RequireAdmin } from "./Authorisation";
+import React from "react";
+import { ServiceContainer } from "./repositories/ServiceContainer";
+import { ServiceContext } from "./repositories/ServiceContext";
 
 function App() {
-
+    const services = new ServiceContainer();
     return (
         <>
             <BrowserRouter>
@@ -21,7 +24,9 @@ function App() {
                     <Route path="/admin"
                         element={
                             <RequireAdmin>
-                                <AdminPage />
+                                <ServiceContext.Provider value={services}>
+                                    <AdminPage />
+                                </ServiceContext.Provider>
                             </RequireAdmin>
                         }
                     />
