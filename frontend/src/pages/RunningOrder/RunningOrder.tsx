@@ -2,7 +2,7 @@ import { Table } from "@radix-ui/themes";
 import DnDTable from "../../components/Table/DnDTable";
 import React, { useEffect } from "react";
 import { LineAxisOutlined } from "@mui/icons-material";
-import useEffectAsync from "../../UseEffectAsync";
+import useEffectAsync from "../../helpers/UseEffectAsync";
 import axios from "axios";
 
 function RunningOrder() {

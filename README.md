@@ -5,6 +5,7 @@ cd frontend
 npm install
 npm run dev
 ```
+and start visual studio
 
 # Technology
 vite, react

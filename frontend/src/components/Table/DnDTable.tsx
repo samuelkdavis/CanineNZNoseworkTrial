@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "@radix-ui/themes";
 import {
     DndContext,
@@ -14,6 +14,9 @@ import {
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import axios from "axios";
+import useEffectAsync from "../../helpers/UseEffectAsync";
+import type { Dog } from "../../repositories/Dog";
 
 const initialDogs = [
     { id: "1", name: "Buddy", age: 3 },
@@ -35,22 +38,29 @@ function SortableRow({ dog, index }) {
 
     return (
         <Table.Row ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            <Table.Cell>{dog.name}</Table.Cell>
-            <Table.Cell>{dog.age}</Table.Cell>
+            <Table.Cell>{dog.dogName}</Table.Cell>
+            <Table.Cell>{dog.orderId}</Table.Cell>
         </Table.Row>
     );
 }
 
 export default function DnDTable() {
-    const [dogs, setDogs] = React.useState(initialDogs);
+    const [dogs, setDogs] = React.useState<Dog[]>([]);
+
+    useEffectAsync(async () => {
+        var response = await axios.get("https://localhost:7276/runningorder");
+
+        setDogs(response.data);
+        console.log(response.data);
+    }, []);
 
     const sensors = useSensors(useSensor(PointerSensor));
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
         if (active.id !== over?.id) {
-            const oldIndex = dogs.findIndex((dog) => dog.id === active.id);
-            const newIndex = dogs.findIndex((dog) => dog.id === over.id);
+            const oldIndex = dogs.findIndex((dog) => dog.orderId === active.id);
+            const newIndex = dogs.findIndex((dog) => dog.orderId === over.id);
             setDogs((dogs) => arrayMove(dogs, oldIndex, newIndex));
         }
     };
@@ -61,7 +71,7 @@ export default function DnDTable() {
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
         >
-            <SortableContext items={dogs.map((dog) => dog.id)} strategy={verticalListSortingStrategy}>
+            <SortableContext items={dogs.map((dog, idx) => dog.orderId)} strategy={verticalListSortingStrategy}>
                 <Table.Root>
                     <Table.Header>
                         <Table.Row>
@@ -71,7 +81,7 @@ export default function DnDTable() {
                     </Table.Header>
                     <Table.Body>
                         {dogs.map((dog, idx) => (
-                            <SortableRow key={dog.id} dog={dog} index={idx} />
+                            <SortableRow key={dog.orderId} dog={dog} index={idx} />
                         ))}
                     </Table.Body>
                 </Table.Root></SortableContext>
