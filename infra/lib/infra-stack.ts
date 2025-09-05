@@ -8,7 +8,7 @@ import DogSportsProperties from '../bin/dogSportsProperties';
 export class InfraStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: DogSportsProperties) {
         super(scope, id, props);
-        new IdentityConstruct(this, "nosework-identity", props);
-        new DataStoreConstruct(this, "nosework-data-store", props);
+        new IdentityConstruct(this, "Identity", props);
+        new DataStoreConstruct(this, "DataStore", props);
     }
 }
