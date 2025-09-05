@@ -3,12 +3,12 @@ import { Construct } from 'constructs';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { IdentityConstruct } from './constructs/identity';
 import { DataStoreConstruct } from './constructs/dataStore';
+import DogSportsProperties from '../bin/dogSportsProperties';
 
 export class InfraStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
-
-    new IdentityConstruct(this, "nosework-identity", {});
-    new DataStoreConstruct(this, "nosework-data-store", {});
-  }
+    constructor(scope: Construct, id: string, props?: DogSportsProperties) {
+        super(scope, id, props);
+        new IdentityConstruct(this, "nosework-identity", props);
+        new DataStoreConstruct(this, "nosework-data-store", props);
+    }
 }

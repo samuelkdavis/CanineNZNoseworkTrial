@@ -1,13 +1,14 @@
 import { Construct } from "constructs";
 import * as cognito from 'aws-cdk-lib/aws-cognito';
+import DogSportsProperties from "../../bin/dogSportsProperties";
 
 export class IdentityConstruct extends Construct {
 
-    constructor(scope: Construct, id: string, props) {
+    constructor(scope: Construct, id: string, props: DogSportsProperties) {
         super(scope, id);
 
         const userPool = new cognito.UserPool(this, 'dev-nosework', {
-            userPoolName: 'dev-nosework-userpool',
+            userPoolName: props.namePrefix + '-user-pool',
             signInCaseSensitive: false,
             selfSignUpEnabled: true,
             // userVerification: {
@@ -17,7 +18,6 @@ export class IdentityConstruct extends Construct {
             // },
             autoVerify: { email: true, phone: true },
         });
-
 
         const provider = new cognito.UserPoolIdentityProviderAmazon(this, 'Amazon', {
             userPool: userPool,
