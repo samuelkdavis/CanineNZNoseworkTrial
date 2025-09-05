@@ -3,5 +3,4 @@
 api/Nosework/.vs/
 **/*.csproj.user
 
-**/*/obj/
-**/*/bin/
+
