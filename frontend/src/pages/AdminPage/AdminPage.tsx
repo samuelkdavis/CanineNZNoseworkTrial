@@ -2,6 +2,7 @@ import axios from "axios";
 import DnDTable from "../../components/Table/DnDTable";
 import React, { useRef } from "react";
 import { ServiceContext } from "../../repositories/ServiceContext";
+import "./AdminPage.css";
 
 function AdminPage() {
     const services = React.useContext(ServiceContext);
@@ -19,19 +20,32 @@ function AdminPage() {
         await services?.dogRunOrderRepository.Upload(file)
     };
 
+    const handleClearTable = async () => {
+        if (!window.confirm("Are you sure you want to clear all table data? This cannot be undone.")) return;
+        try {
+            await services?.dogRunOrderRepository.ClearAll();
+            // Optionally, refresh table data here if needed
+            window.location.reload(); // or trigger a state update to refresh the table
+        } catch (err) {
+            console.error("Failed to clear table:", err);
+        }
+    };
+
     return (
         <>
-            <div>Upload CSV here, view entries</div>
-            <form onSubmit={handleFileUpload}>
-                <input type="file" ref={fileInputRef} accept=".csv" />
-                <button type="submit">Upload</button>
+            <div className="csv-upload-container">Upload CSV here, view entries</div>
+            <form className="csv-upload-form" onSubmit={handleFileUpload}>
+                <label className="csv-upload-label">Choose CSV
+                    <input type="file" style={{ display: "none" }} ref={fileInputRef} accept=".csv" />
+                </label>
+
+                <button type="submit" className="csv-upload-button">Upload</button>
+
+                <button type="button" className="clear-table-button" onClick={handleClearTable}>
+                    Clear Table
+                </button>
             </form>
-            <button>Add dog</button>
             <DnDTable />
-            <div style={{ padding: 24 }}>
-                <h1>Admin Page</h1>
-                <p>This is the admin page content.</p>
-            </div>
         </>
 
     );

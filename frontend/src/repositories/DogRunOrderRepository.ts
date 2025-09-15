@@ -20,4 +20,8 @@ export default class DogRunOrderRepository {
         };
         await axios.post("https://localhost:7276/runningorder/upload", formData, headers);
     }
+
+    async ClearAll() {
+        await axios.delete("https://localhost:7276/runningorder/delete?areYouSure=yes");
+    }
 }

@@ -12,20 +12,29 @@ namespace Nosework.Api.Controllers
     [Route("[controller]")]
     public class RunningOrder : ControllerBase
     {
-        private readonly IAmazonDynamoDB _dbClient;
+        private readonly DogRepository _dogRepository;
 
-        public RunningOrder(IAmazonDynamoDB dbClient)
+        public RunningOrder(DogRepository dogRepository)
         {
-            _dbClient = dbClient;
+            _dogRepository = dogRepository;
         }
 
         [HttpGet(Name = "GetRunningOrder")]
         public async Task<List<Dog>> Get()
         {
-            var dogdbname = "DogSports-noseworkdatastoredogs6D336E12-HV1NY32291RK";
-            var dogRepo = new DogRepository(_dbClient, dogdbname);
-            var dogs = await dogRepo.Read();
+            var dogs = await _dogRepository.Read();
             return dogs;
+        }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> DeleteAll([FromQuery] string areYouSure)
+        {
+            if (areYouSure != "yes")
+            {
+                return BadRequest("You must confirm deletion by setting areYouSure=yes");
+            }
+            await _dogRepository.Delete();
+            return Ok();
         }
 
         [HttpPost("upload")]
@@ -57,8 +66,7 @@ namespace Nosework.Api.Controllers
 
                 foreach (var dog in dogs)
                 {
-                    var dogdbname = "DogSports-noseworkdatastoredogs6D336E12-HV1NY32291RK";
-                    await new DogRepository(_dbClient, dogdbname).Create(dog);
+                    await _dogRepository.Create(dog);
                 }
 
                 return Ok();

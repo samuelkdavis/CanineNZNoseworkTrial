@@ -1,8 +1,6 @@
 
 using Amazon.DynamoDBv2;
-using Amazon.Runtime;
-using Amazon.Runtime.CredentialManagement;
-using Microsoft.Extensions.Configuration;
+using Nosework.Core;
 
 namespace Nosework.Api
 {
@@ -26,9 +24,15 @@ namespace Nosework.Api
             {
                 options.AddPolicy(name: CorsAllowAll, policy =>
                 {
-                    policy.WithOrigins("*");
+                    policy.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
             });
+
+            builder.Services.AddScoped<DogRepository>(sp =>
+                new DogRepository(sp.GetRequiredService<IAmazonDynamoDB>(),
+                builder.Configuration["Database:DogTableName"]));
 
             var app = builder.Build();
             app.UseCors(CorsAllowAll);
@@ -44,9 +48,6 @@ namespace Nosework.Api
 
 
             app.MapControllers();
-
-            // var awsOptions = builder.Configuration.GetAWSOptions();
-            // Console.WriteLine($"Profile: {awsOptions.Profile}");
 
             app.Run();
         }

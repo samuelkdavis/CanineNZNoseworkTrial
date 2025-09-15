@@ -38,6 +38,38 @@ namespace Nosework.Core
             await dynamoClient.PutItemAsync(request);
         }
 
+        public async Task Delete()
+        {
+
+            Dictionary<string, AttributeValue>? lastEvaluatedKey = null;
+            do
+            {
+                var scanRequest = new ScanRequest
+                {
+                    TableName = _tableName,
+                    ProjectionExpression = "Id",
+                    ExclusiveStartKey = lastEvaluatedKey
+                };
+                var scanResponse = await dynamoClient.ScanAsync(scanRequest);
+
+                foreach (var item in scanResponse.Items)
+                {
+                    var deleteRequest = new DeleteItemRequest
+                    {
+                        TableName = _tableName,
+                        Key = new Dictionary<string, AttributeValue>
+                    {
+                        { "Id", item["Id"] }
+                    }
+                    };
+
+                    await dynamoClient.DeleteItemAsync(deleteRequest);
+                }
+                lastEvaluatedKey = scanResponse.LastEvaluatedKey;
+            } while(lastEvaluatedKey != null && lastEvaluatedKey.Count > 0);
+
+        }
+
         public async Task<List<Dog>> Read()
         {
             var dogs = new List<Dog>();
