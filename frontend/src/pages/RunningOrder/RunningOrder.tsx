@@ -4,15 +4,9 @@ import React, { useEffect } from "react";
 import { LineAxisOutlined } from "@mui/icons-material";
 import useEffectAsync from "../../helpers/UseEffectAsync";
 import axios from "axios";
+import type { Dog } from "../../repositories/Dog";
 
 function RunningOrder() {
-    type Dog = {
-        orderId: number;
-        dogName: string;
-        handlerName: string;
-        class: string;
-    };
-
     const [dogs, setDogs] = React.useState<Dog[]>([]);
 
     /*
@@ -24,6 +18,7 @@ function RunningOrder() {
     */
     useEffectAsync(async () => {
         try {
+            //todo replace usage with repository
             const result = await axios.get('https://localhost:7276/runningorder');
             console.log("Fetched dogs:", result.data);
             setDogs(result.data);

@@ -1,5 +1,4 @@
 import axios from "axios";
-import type { Dog } from "./Dog";
 
 export default class DogRunOrderRepository {
     async Get(): Promise<Dog[]> {
@@ -25,3 +24,11 @@ export default class DogRunOrderRepository {
         await axios.delete("https://localhost:7276/runningorder/delete?areYouSure=yes");
     }
 }
+
+export type Dog = {
+    orderId: number;
+    dogName: string;
+    handlerName: string;
+    class: string;
+    hasFinished: boolean;
+};

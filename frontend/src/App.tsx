@@ -10,28 +10,31 @@ import { RequireAdmin } from "./Authorisation";
 import React from "react";
 import { ServiceContainer } from "./repositories/ServiceContainer";
 import { ServiceContext } from "./repositories/ServiceContext";
+import CallBoard from "./pages/CallBoard/CallBoard";
 
 function App() {
     const services = new ServiceContainer();
     return (
         <>
-            <BrowserRouter>
-                <TopNav />
-                <Routes>
-                    <Route path="/" element={<LoginToken />} />
-                    <Route path="/settings" element={<SettingsPage />} />
-                    <Route path="/running-order" element={<RunningOrder />} />
-                    <Route path="/admin"
-                        element={
-                            <RequireAdmin>
-                                <ServiceContext.Provider value={services}>
+            <ServiceContext.Provider value={services}>
+                <BrowserRouter>
+                    <TopNav />
+                    <Routes>
+                        <Route path="/" element={<LoginToken />} />
+                        <Route path="/settings" element={<SettingsPage />} />
+                        <Route path="/running-order" element={<RunningOrder />} />
+                        <Route path="/call-board" element={<CallBoard />} />
+                        <Route path="/admin"
+                            element={
+                                <RequireAdmin>
                                     <AdminPage />
-                                </ServiceContext.Provider>
-                            </RequireAdmin>
-                        }
-                    />
-                </Routes>
-            </BrowserRouter>
+                                </RequireAdmin>
+                            }
+                        />
+                    </Routes>
+                </BrowserRouter>
+            </ServiceContext.Provider>
+
         </>
     );
 }

@@ -24,19 +24,22 @@ export default function TopNav() {
                     style={{ marginRight: "16px" }}
                 />
                 {/* Navigation Links */}
-                <TabNav.Link href="/" active={location.pathname === '/'}>
+                <NavLink href="/">
                     Home
-                </TabNav.Link>
-                <TabNav.Link href="/settings" active={location.pathname === '/settings'}>
+                </NavLink>
+                <NavLink href="/settings">
                     Settings
-                </TabNav.Link>
+                </NavLink>
                 {isAdmin && (
-                    < TabNav.Link href="/admin" active={location.pathname === '/admin'}>
+                    < NavLink href="/admin">
                         Admin
-                    </TabNav.Link>)}
-                <TabNav.Link href="/running-order" active={location.pathname === '/running-order'}>
+                    </NavLink>)}
+                <NavLink href="/running-order">
                     Running Order
-                </TabNav.Link>
+                </NavLink>
+                <NavLink href="/call-board">
+                    Call Board
+                </NavLink>
 
                 {/* Spacer to push auth section to the right */}
                 <div style={{ flex: 1 }} />
@@ -70,5 +73,14 @@ export default function TopNav() {
                 )}
             </Flex>
         </TabNav.Root >
+    );
+}
+
+function NavLink({ href, children, ...props }: React.ComponentProps<typeof TabNav.Link>) {
+    const location = useLocation();
+    return (
+        <TabNav.Link href={href} active={location.pathname === href} {...props}>
+            {children}
+        </TabNav.Link>
     );
 }
