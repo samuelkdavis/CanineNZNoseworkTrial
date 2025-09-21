@@ -18,6 +18,7 @@ import axios from "axios";
 import useEffectAsync from "../../helpers/UseEffectAsync";
 import type { Dog } from "../../repositories/Dog";
 import { ServiceContext } from "../../repositories/ServiceContext";
+import "./AdminDogTable.css";
 
 const initialDogs = [
     { id: "1", name: "Buddy", age: 3 },
@@ -29,7 +30,7 @@ const initialDogs = [
 function SortableRow({ dog, index }) {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
         useSortable({ id: dog.order });
-
+    const services = React.useContext(ServiceContext);
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
@@ -37,12 +38,18 @@ function SortableRow({ dog, index }) {
         cursor: "grab",
     };
 
-    /**                            <Table.ColumnHeaderCell>Order</Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>Dog Name</Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>Handler Name</Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>Class</Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>Phone Number</Table.ColumnHeaderCell>
-                            <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell> */
+    const handleSendText = async () => {
+        await services?.dogRunOrderRepository.SendText(dog.order);
+    };
+
+    const handleSendEmail = async () => {
+        await services?.dogRunOrderRepository.SendEmail(dog.order);
+    };
+
+    const handleMarkFinished = async () => {
+        await services?.dogRunOrderRepository.MarkFinished(dog.order);
+    };
+
     return (
         <Table.Row ref={setNodeRef} style={style} {...attributes} {...listeners}>
             <Table.Cell>{dog.order}</Table.Cell>
@@ -51,11 +58,15 @@ function SortableRow({ dog, index }) {
             <Table.Cell>{dog.class}</Table.Cell>
             <Table.Cell>{dog.phoneNumber}</Table.Cell>
             <Table.Cell>{dog.email}</Table.Cell>
+            <Table.Cell className="actions-cell">                
+                <button onClick={handleSendText} className="action-button text">Send Text</button>
+                <button onClick={handleSendEmail} className="action-button email">Send Email</button>
+                <button onClick={handleMarkFinished}className="action-button finished">Finished</button></Table.Cell>
         </Table.Row>
     );
 }
 
-export default function DnDTable() {
+export default function AdminDogTable() {
     const services = React.useContext(ServiceContext);
 
     const [dogs, setDogs] = React.useState<Dog[]>([]);
@@ -94,6 +105,7 @@ export default function DnDTable() {
                             <Table.ColumnHeaderCell>Class</Table.ColumnHeaderCell>
                             <Table.ColumnHeaderCell>Phone Number</Table.ColumnHeaderCell>
                             <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
+                            <Table.ColumnHeaderCell className="actions-header">Actions</Table.ColumnHeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>

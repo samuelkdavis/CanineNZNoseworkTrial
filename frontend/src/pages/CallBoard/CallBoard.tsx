@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ServiceContext } from "../../repositories/ServiceContext";
-import type { Dog } from "../../repositories/DogRunOrderRepository";
+import type { Dog } from "../../repositories/Dog";
 
 export default function CallBoard() {
     const services = useContext(ServiceContext);

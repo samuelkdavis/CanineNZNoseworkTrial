@@ -1,5 +1,5 @@
 import axios from "axios";
-import DnDTable from "../../components/Table/DnDTable";
+import AdminDogTable from "../../components/AdminDogTable/AdminDogTable";
 import React, { useRef } from "react";
 import { ServiceContext } from "../../repositories/ServiceContext";
 import "./AdminPage.css";
@@ -45,7 +45,7 @@ function AdminPage() {
                     Clear Table
                 </button>
             </form>
-            <DnDTable />
+            <AdminDogTable />
         </>
 
     );

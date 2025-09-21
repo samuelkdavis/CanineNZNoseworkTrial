@@ -5,4 +5,5 @@ export type Dog = {
     class: string;
     phoneNumber: string;
     email: string;
+    hasFinished: boolean;
 };

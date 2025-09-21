@@ -1,5 +1,5 @@
 import { Table } from "@radix-ui/themes";
-import DnDTable from "../../components/Table/DnDTable";
+import AdminDogTable from "../../components/AdminDogTable/AdminDogTable";
 import React, { useEffect } from "react";
 import { LineAxisOutlined } from "@mui/icons-material";
 import useEffectAsync from "../../helpers/UseEffectAsync";
@@ -42,7 +42,7 @@ function RunningOrder() {
                 <Table.Body>
                     {dogs.map((dog, index) => (
                         <Table.Row key={index}>
-                            <Table.Cell>{dog.orderId}</Table.Cell>
+                            <Table.Cell>{dog.order}</Table.Cell>
                             <Table.Cell>{dog.dogName}</Table.Cell>
                             <Table.Cell>{dog.handlerName}</Table.Cell>
                             <Table.Cell>{dog.class}</Table.Cell>
