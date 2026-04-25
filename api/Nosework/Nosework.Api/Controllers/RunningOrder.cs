@@ -38,7 +38,7 @@ namespace Nosework.Api.Controllers
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadCsv(IFormFile file)
+        public async Task<ActionResult<List<Dog>>> UploadCsv(IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
@@ -69,7 +69,7 @@ namespace Nosework.Api.Controllers
                     await _dogRepository.Create(dog);
                 }
 
-                return Ok();
+                return Ok(dogs);
             }
             catch (Exception ex)
             {

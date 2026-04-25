@@ -9,7 +9,7 @@ export default class DogRunOrderRepository {
     }
 
 
-    async Upload(file: File) {
+    async Upload(file: File): Promise<Dog[]> {
         const formData = new FormData();
         formData.append("file", file);
 
@@ -18,7 +18,8 @@ export default class DogRunOrderRepository {
                 "Content-Type": "multipart/form-data",
             }
         };
-        await axios.post("https://localhost:7276/runningorder/upload", formData, headers);
+        const response = await axios.post("https://localhost:7276/runningorder/upload", formData, headers);
+        return response.data;
     }
 
     async SendText(orderId: string) {

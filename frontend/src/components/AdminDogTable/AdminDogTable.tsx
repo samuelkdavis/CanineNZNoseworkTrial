@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Table } from "@radix-ui/themes";
 import {
     DndContext,
@@ -14,18 +14,9 @@ import {
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import axios from "axios";
-import useEffectAsync from "../../helpers/UseEffectAsync";
 import type { Dog } from "../../repositories/Dog";
 import { ServiceContext } from "../../repositories/ServiceContext";
 import "./AdminDogTable.css";
-
-const initialDogs = [
-    { id: "1", name: "Buddy", age: 3 },
-    { id: "2", name: "Bella", age: 5 },
-    { id: "3", name: "Charlie", age: 2 },
-    { id: "4", name: "Lucy", age: 4 },
-];
 
 function SortableRow({ dog, index }) {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
@@ -66,17 +57,8 @@ function SortableRow({ dog, index }) {
     );
 }
 
-export default function AdminDogTable() {
+export default function AdminDogTable({ dogs, setDogs }: { dogs: Dog[], setDogs: (dogs: Dog[]) => void }) {
     const services = React.useContext(ServiceContext);
-
-    const [dogs, setDogs] = React.useState<Dog[]>([]);
-
-    useEffectAsync(async () => {
-        var dogsResponse: Dog[] = await services?.dogRunOrderRepository.Get() ?? [];
-
-        setDogs(dogsResponse);
-        console.log(dogsResponse);
-    }, []);
 
     const sensors = useSensors(useSensor(PointerSensor));
 
