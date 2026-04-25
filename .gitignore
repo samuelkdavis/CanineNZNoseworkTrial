@@ -4,3 +4,4 @@ api/Nosework/.vs/
 **/*.csproj.user
 
 
+node_modules/

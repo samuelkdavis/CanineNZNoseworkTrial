@@ -1,6 +1,8 @@
 
 using Amazon.DynamoDBv2;
+using Amazon.SimpleNotificationService;
 using Nosework.Core;
+using Nosework.Api.Services;
 
 namespace Nosework.Api
 {
@@ -15,6 +17,8 @@ namespace Nosework.Api
             // Add services to the container.
             builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
             builder.Services.AddAWSService<IAmazonDynamoDB>();
+            builder.Services.AddAWSService<IAmazonSimpleNotificationService>();
+            builder.Services.AddSingleton<ISmsSender, SnsSmsSender>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

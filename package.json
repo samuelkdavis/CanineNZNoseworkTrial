@@ -3,6 +3,11 @@
     "dev:frontend": "npm run dev --prefix frontend",
     "dev:install": "npm install --prefix frontend",
     "dev:install-backend": "dotnet build api/Nosework/Nosework.sln",
-    "dev:backend": "dotnet run --project api/Nosework/Nosework.Api/Nosework.Api.csproj"
+    "dev:backend": "dotnet run --project api/Nosework/Nosework.Api/Nosework.Api.csproj",
+    "deploy:infra": "npm install --prefix infra && npm run cdk --prefix infra -- deploy --profile developer",
+    "run": "concurrently -k -n backend,frontend -c blue,green \"npm run dev:backend\" \"npm run dev:frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
   }
 }

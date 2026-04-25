@@ -11,11 +11,20 @@ import React from "react";
 import { ServiceContainer } from "./repositories/ServiceContainer";
 import { ServiceContext } from "./repositories/ServiceContext";
 import CallBoard from "./pages/CallBoard/CallBoard";
+import { Theme } from '@radix-ui/themes';
+import '@radix-ui/themes/styles.css';
+
 
 function App() {
     const services = new ServiceContainer();
     return (
-        <>
+        <Theme
+            appearance="light"
+            accentColor="purple"
+            grayColor="slate"
+            radius="medium"
+            scaling="100%"
+        >
             <ServiceContext.Provider value={services}>
                 <BrowserRouter>
                     <TopNav />
@@ -35,7 +44,7 @@ function App() {
                 </BrowserRouter>
             </ServiceContext.Provider>
 
-        </>
+        </Theme>
     );
 }
 

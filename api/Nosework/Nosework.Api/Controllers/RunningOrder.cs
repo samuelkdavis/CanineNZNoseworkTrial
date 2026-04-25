@@ -3,6 +3,8 @@ using Amazon.DynamoDBv2;
 using Amazon.Runtime.CredentialManagement;
 using Microsoft.AspNetCore.Mvc;
 using Nosework.Core;
+using Nosework.Api.Models;
+using Nosework.Api.Services;
 using System.Formats.Asn1;
 using System.Globalization;
 
@@ -13,10 +15,12 @@ namespace Nosework.Api.Controllers
     public class RunningOrder : ControllerBase
     {
         private readonly DogRepository _dogRepository;
+        private readonly ISmsSender _smsSender;
 
-        public RunningOrder(DogRepository dogRepository)
+        public RunningOrder(DogRepository dogRepository, ISmsSender smsSender)
         {
             _dogRepository = dogRepository;
+            _smsSender = smsSender;
         }
 
         [HttpGet(Name = "GetRunningOrder")]
@@ -75,6 +79,28 @@ namespace Nosework.Api.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+        }
+
+        [HttpPost("sendtext")]
+        public async Task<IActionResult> SendText([FromBody] SendTextRequest request, CancellationToken cancellationToken)
+        {
+            if (!int.TryParse(request.OrderId, out var order))
+            {
+                return BadRequest("Invalid orderId. Expected an integer.");
+            }
+
+            var dog = await _dogRepository.ReadByOrder(order);
+            if (dog == null)
+            {
+                return NotFound($"No dog found for order {order}.");
+            }
+
+            var message = string.IsNullOrWhiteSpace(request.Message)
+                ? $"You're up soon. Current running order number: {order}."
+                : request.Message;
+
+            await _smsSender.SendAsync(dog.PhoneNumber, message, cancellationToken);
+            return Ok(new { orderId = order, sentTo = dog.PhoneNumber });
         }
     }
 }

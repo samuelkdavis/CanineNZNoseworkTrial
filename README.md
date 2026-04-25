@@ -1,11 +1,8 @@
 # How to run
 
 ```
-cd frontend
-npm install
-npm run dev
+read root package.json
 ```
-and start visual studio
 
 # Technology
 vite, react

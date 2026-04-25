@@ -103,5 +103,11 @@ namespace Nosework.Core
             return dogs;
         }
 
+        public async Task<Dog?> ReadByOrder(int order)
+        {
+            var dogs = await Read();
+            return dogs.FirstOrDefault(d => d.Order == order);
+        }
+
     }
 }
