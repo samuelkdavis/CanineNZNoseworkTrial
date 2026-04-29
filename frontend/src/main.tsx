@@ -12,12 +12,12 @@ import { cognitoAuthConfig } from './Authorisation.tsx';
 
 const root = createRoot(document.getElementById('root')!);
 root.render(
-    <StrictMode>
-        <AuthProvider {...cognitoAuthConfig}>
+    <AuthProvider {...cognitoAuthConfig}>
+        <StrictMode>
             <Theme accentColor="crimson" grayColor="sand" radius="large" scaling="95%">
                 {/* <ThemePanel /> */}
                 <App />
             </Theme>
-        </AuthProvider>
-    </StrictMode>,
+        </StrictMode>
+    </AuthProvider>,
 )
