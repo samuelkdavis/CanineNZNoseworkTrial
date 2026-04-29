@@ -19,10 +19,10 @@ function RunningOrder() {
     useEffectAsync(async () => {
         try {
             //todo replace usage with repository
-            const result = await axios.get('https://localhost:7276/runningorder');
+            const result = await axios.get('https://localhost:17276/runningorder');
             console.log("Fetched dogs:", result.data);
             setDogs(result.data);
-        }catch(error){
+        } catch (error) {
             console.error("Error fetching dogs:", error);
         }
     }, []);

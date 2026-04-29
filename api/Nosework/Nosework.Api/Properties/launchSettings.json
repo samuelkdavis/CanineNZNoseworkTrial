@@ -1,43 +1,43 @@
 {
-  "profiles": {
-    "http": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7276"
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "WSL": {
-        "commandName": "WSL2",
-        "launchBrowser": false,
-        "distributionName": "Ubuntu-24.04",
-        "launchUrl": "https://localhost:7276",
-        "environmentVariables": {
-            "ASPNETCORE_ENVIRONMENT": "Development",
-            "ASPNETCORE_URLS": "https://localhost:7276;http://localhost:5120"
+    "profiles": {
+        "http": {
+            "commandName": "Project",
+            "launchBrowser": true,
+            "launchUrl": "swagger",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "dotnetRunMessages": true,
+            "applicationUrl": "https://localhost:17276"
         },
-        "workingDirectory": "/home/user/dev/CanineNZNoseworkTrial/api/Nosework/Nosework.Api",
-        "commandLineArgs": "bin/Debug/net10.0/Nosework.Api.dll"
+        "IIS Express": {
+            "commandName": "IISExpress",
+            "launchBrowser": true,
+            "launchUrl": "swagger",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        "WSL": {
+            "commandName": "WSL2",
+            "launchBrowser": false,
+            "distributionName": "Ubuntu-24.04",
+            "launchUrl": "https://localhost:17276",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "https://localhost:17276;http://localhost:5120"
+            },
+            "workingDirectory": "/home/user/dev/CanineNZNoseworkTrial/api/Nosework/Nosework.Api",
+            "commandLineArgs": "bin/Debug/net10.0/Nosework.Api.dll"
+        }
+    },
+    "$schema": "http://json.schemastore.org/launchsettings.json",
+    "iisSettings": {
+        "windowsAuthentication": false,
+        "anonymousAuthentication": true,
+        "iisExpress": {
+            "applicationUrl": "http://localhost:14883",
+            "sslPort": 0
+        }
     }
-  },
-  "$schema": "http://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:14883",
-      "sslPort": 0
-    }
-  }
 }

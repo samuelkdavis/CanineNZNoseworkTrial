@@ -26,7 +26,6 @@ function SortableRow({ dog, index }) {
         transform: CSS.Transform.toString(transform),
         transition,
         background: isDragging ? "#f0f0f0" : undefined,
-        cursor: "grab",
     };
 
     const handleSendText = async () => {
@@ -42,17 +41,29 @@ function SortableRow({ dog, index }) {
     };
 
     return (
-        <Table.Row ref={setNodeRef} style={style} {...attributes} {...listeners}>
+        <Table.Row ref={setNodeRef} style={style} {...attributes}>
+            {/* Drag handle — only this cell initiates dragging */}
+            <Table.Cell>
+                <span
+                    {...listeners}
+                    className="drag-handle"
+                    title="Drag to reorder"
+                    aria-label="Drag to reorder"
+                >
+                    ⠿
+                </span>
+            </Table.Cell>
             <Table.Cell>{dog.order}</Table.Cell>
             <Table.Cell>{dog.dogName}</Table.Cell>
             <Table.Cell>{dog.handlerName}</Table.Cell>
             <Table.Cell>{dog.class}</Table.Cell>
             <Table.Cell>{dog.phoneNumber}</Table.Cell>
             <Table.Cell>{dog.email}</Table.Cell>
-            <Table.Cell className="actions-cell">                
+            <Table.Cell className="actions-cell">
                 <button onClick={handleSendText} className="action-button text">Send Text</button>
                 <button onClick={handleSendEmail} className="action-button email">Send Email</button>
-                <button onClick={handleMarkFinished}className="action-button finished">Finished</button></Table.Cell>
+                <button onClick={handleMarkFinished} className="action-button finished">Finished</button>
+            </Table.Cell>
         </Table.Row>
     );
 }
@@ -60,7 +71,13 @@ function SortableRow({ dog, index }) {
 export default function AdminDogTable({ dogs, setDogs }: { dogs: Dog[], setDogs: (dogs: Dog[]) => void }) {
     const services = React.useContext(ServiceContext);
 
-    const sensors = useSensors(useSensor(PointerSensor));
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            // Require the pointer to move 8px before a drag starts,
+            // so normal button clicks are never intercepted.
+            activationConstraint: { distance: 8 },
+        })
+    );
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
@@ -77,10 +94,11 @@ export default function AdminDogTable({ dogs, setDogs }: { dogs: Dog[], setDogs:
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
         >
-            <SortableContext items={dogs.map((dog, idx) => dog.order)} strategy={verticalListSortingStrategy}>
+            <SortableContext items={dogs.map((dog) => dog.order)} strategy={verticalListSortingStrategy}>
                 <Table.Root>
                     <Table.Header>
                         <Table.Row>
+                            <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
                             <Table.ColumnHeaderCell>Order</Table.ColumnHeaderCell>
                             <Table.ColumnHeaderCell>Dog Name</Table.ColumnHeaderCell>
                             <Table.ColumnHeaderCell>Handler Name</Table.ColumnHeaderCell>
@@ -95,7 +113,8 @@ export default function AdminDogTable({ dogs, setDogs }: { dogs: Dog[], setDogs:
                             <SortableRow key={dog.order} dog={dog} index={idx} />
                         ))}
                     </Table.Body>
-                </Table.Root></SortableContext>
+                </Table.Root>
+            </SortableContext>
         </DndContext>
     );
 }
