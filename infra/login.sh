@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # on initial setup, have a ~/.aws/credentials file with a [default] profile with the long term creds.
+# use `aws configure` to set up a user with the default profile`
 # call with `. ./infra/login.sh <MFA_TOKEN>`. If you leave off the first dot the env vars wont be set in your current shell.
 # Make sure to use the AWS CLI mfa code, not the AWS console one.
+export AWS_PROFILE=developer
 mfa_token=$1
 CREDENTIALS=$(aws sts get-session-token --serial-number "arn:aws:iam::956470542728:mfa/ProtonPass" --output json --token-code $mfa_token)
 

@@ -15,6 +15,9 @@ npm create vite@latest
 cd infra
 npm init
 cdk init app --language=typescript
+
+
+dotnet dev-certs https --trust
 ```
 
 
