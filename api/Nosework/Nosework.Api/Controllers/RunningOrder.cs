@@ -84,10 +84,7 @@ namespace Nosework.Api.Controllers
         [HttpPost("sendtext")]
         public async Task<IActionResult> SendText([FromBody] SendTextRequest request, CancellationToken cancellationToken)
         {
-            if (!int.TryParse(request.OrderId, out var order))
-            {
-                return BadRequest("Invalid orderId. Expected an integer.");
-            }
+            var order = request.OrderId;
 
             var dog = await _dogRepository.ReadByOrder(order);
             if (dog == null)
@@ -99,8 +96,15 @@ namespace Nosework.Api.Controllers
                 ? $"You're up soon. Current running order number: {order}."
                 : request.Message;
 
-            await _smsSender.SendAsync(dog.PhoneNumber, message, cancellationToken);
-            return Ok(new { orderId = order, sentTo = dog.PhoneNumber });
+            try
+            {
+                await _smsSender.SendAsync(dog.PhoneNumber, message, cancellationToken);
+                return Ok(new { orderId = order, sentTo = dog.PhoneNumber });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return StatusCode(502, new { error = ex.Message });
+            }
         }
     }
 }

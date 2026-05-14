@@ -55,6 +55,29 @@ function signOutRedirect(auth) {
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
 };
 
+async function clearAuthSession(auth) {
+    try {
+        await auth.removeUser();
+    } catch (error){
+        // ignore
+        console.error("error clearing auth session", error);
+    }
+
+    // oidc-client-ts stores state/user in Web Storage. If the auth flow breaks mid-flight,
+    // clearing these keys is the quickest way to recover without "clear site data".
+    for (const storage of [window.localStorage, window.sessionStorage]) {
+        const keysToRemove: string[] = [];
+        for (let i = 0; i < storage.length; i++) {
+            const key = storage.key(i);
+            if (!key) continue;
+            if (key.startsWith("oidc.") || key.startsWith("oidc.user:")) {
+                keysToRemove.push(key);
+            }
+        }
+        keysToRemove.forEach((k) => storage.removeItem(k));
+    }
+}
+
 const cognitoAuthConfig = {
     authority: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_RGEisYwKM",
     client_id: "7sn205necoj0cmj5u3mrc1cjee",
@@ -66,4 +89,4 @@ const cognitoAuthConfig = {
     }
 }
 
-export { signOutRedirect, cognitoAuthConfig, RequireAdmin, IsAdmin};
+export { signOutRedirect, clearAuthSession, cognitoAuthConfig, RequireAdmin, IsAdmin};

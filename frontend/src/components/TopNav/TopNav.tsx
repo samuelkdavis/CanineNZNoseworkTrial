@@ -1,7 +1,7 @@
 import { Flex, TabNav, Avatar, DropdownMenu } from "@radix-ui/themes";
 import { useAuth } from "react-oidc-context";
 import logo from "./logo backup.jpg"; // Adjust path if needed
-import { signOutRedirect, IsAdmin } from "../../Authorisation";
+import { signOutRedirect, clearAuthSession, IsAdmin } from "../../Authorisation";
 import { useLocation } from "react-router-dom";
 
 export default function TopNav() {
@@ -13,6 +13,20 @@ export default function TopNav() {
 
     return (
         <TabNav.Root>
+            {auth.error && (
+                <div
+                    style={{
+                        width: "100%",
+                        padding: "8px 16px",
+                        background: "#fff4e5",
+                        color: "#663c00",
+                        borderBottom: "1px solid #ffd8a8",
+                        fontSize: 13,
+                    }}
+                >
+                    Authentication error: {auth.error.message}
+                </div>
+            )}
             <Flex align="center" justify="between" px="4" py="2" style={{ width: "100%" }}>
                 {/* Logo */}
                 <Avatar
@@ -44,7 +58,7 @@ export default function TopNav() {
                 {/* Spacer to push auth section to the right */}
                 <div style={{ flex: 1 }} />
                 {/* Auth Section on the right */}
-                {auth.isAuthenticated ? (
+                {auth.isAuthenticated || auth.error || auth.user ? (
                     <DropdownMenu.Root>
                         <DropdownMenu.Trigger>
                             <span tabIndex={0} style={{ display: "inline-flex", cursor: "pointer" }}>
@@ -61,14 +75,21 @@ export default function TopNav() {
                             <DropdownMenu.Label>
                                 {auth.user?.profile?.email}
                             </DropdownMenu.Label>
-                            <DropdownMenu.Item onClick={() => signOutRedirect(auth)}>
-                                Sign Out
+                            <DropdownMenu.Item onClick={() => clearAuthSession(auth)}>
+                                Clear session
                             </DropdownMenu.Item>
+                            {auth.isAuthenticated && (
+                                <DropdownMenu.Item onClick={() => signOutRedirect(auth)}>
+                                    Sign Out
+                                </DropdownMenu.Item>
+                            )}
                         </DropdownMenu.Content>
                     </DropdownMenu.Root>
                 ) : (
                     <TabNav.Link asChild>
-                        <button onClick={() => auth.signinRedirect()}>Log In</button>
+                        <button onClick={() => auth.signinRedirect()} disabled={auth.isLoading}>
+                            {auth.isLoading ? "Loading…" : "Log In"}
+                        </button>
                     </TabNav.Link>
                 )}
             </Flex>

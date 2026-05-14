@@ -22,15 +22,16 @@ export default class DogRunOrderRepository {
         return response.data;
     }
 
-    async SendText(orderId: string) {
-        await axios.post(`https://localhost:7276/runningorder/sendtext`, { orderId });
+    async SendText(orderId: number): Promise<{ orderId: number; sentTo: string }> {
+        const response = await axios.post(`https://localhost:7276/runningorder/sendtext`, { orderId });
+        return response.data;
     }
 
-    async SendEmail(orderId: string) {
+    async SendEmail(orderId: number) {
         await axios.post(`https://localhost:7276/runningorder/sendemail`, { orderId });
     }
 
-    async MarkFinished(orderId: string) {
+    async MarkFinished(orderId: number) {
         await axios.post(`https://localhost:7276/runningorder/markfinished`, { orderId });
     }
 

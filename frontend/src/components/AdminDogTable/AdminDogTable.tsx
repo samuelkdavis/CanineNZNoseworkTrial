@@ -26,24 +26,48 @@ function SortableRow({ dog, index }) {
         transform: CSS.Transform.toString(transform),
         transition,
         background: isDragging ? "#f0f0f0" : undefined,
-        cursor: "grab",
     };
 
-    const handleSendText = async () => {
-        await services?.dogRunOrderRepository.SendText(dog.order);
+    const handleSendText = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        try {
+            await services?.dogRunOrderRepository.SendText(dog.order);
+            alert(`Text sent to ${dog.handlerName} (${dog.phoneNumber})`);
+        } catch (err: any) {
+            const detail = err?.response?.data || err?.message || "Unknown error";
+            alert(`Failed to send text: ${detail}`);
+        }
     };
 
-    const handleSendEmail = async () => {
+    const handleSendEmail = async (e: React.MouseEvent) => {
+        e.stopPropagation();
         await services?.dogRunOrderRepository.SendEmail(dog.order);
     };
 
-    const handleMarkFinished = async () => {
+    const handleMarkFinished = async (e: React.MouseEvent) => {
+        e.stopPropagation();
         await services?.dogRunOrderRepository.MarkFinished(dog.order);
     };
 
     return (
-        <Table.Row ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            <Table.Cell>{dog.order}</Table.Cell>
+        <Table.Row ref={setNodeRef} style={style}>
+            <Table.Cell>
+                <span
+                    {...attributes}
+                    {...listeners}
+                    style={{
+                        cursor: "grab",
+                        userSelect: "none",
+                        display: "inline-block",
+                        padding: "2px 6px",
+                    }}
+                    title="Drag to reorder"
+                    aria-label="Drag handle"
+                >
+                    ⠿
+                </span>{" "}
+                {dog.order}
+            </Table.Cell>
             <Table.Cell>{dog.dogName}</Table.Cell>
             <Table.Cell>{dog.handlerName}</Table.Cell>
             <Table.Cell>{dog.class}</Table.Cell>
@@ -52,7 +76,8 @@ function SortableRow({ dog, index }) {
             <Table.Cell className="actions-cell">                
                 <button onClick={handleSendText} className="action-button text">Send Text</button>
                 <button onClick={handleSendEmail} className="action-button email">Send Email</button>
-                <button onClick={handleMarkFinished}className="action-button finished">Finished</button></Table.Cell>
+                <button onClick={handleMarkFinished} className="action-button finished">Finished</button>
+            </Table.Cell>
         </Table.Row>
     );
 }
@@ -60,14 +85,16 @@ function SortableRow({ dog, index }) {
 export default function AdminDogTable({ dogs, setDogs }: { dogs: Dog[], setDogs: (dogs: Dog[]) => void }) {
     const services = React.useContext(ServiceContext);
 
-    const sensors = useSensors(useSensor(PointerSensor));
+    const sensors = useSensors(
+        useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
+    );
 
     const handleDragEnd = (event) => {
         const { active, over } = event;
         if (active.id !== over?.id) {
             const oldIndex = dogs.findIndex((dog) => dog.order === active.id);
             const newIndex = dogs.findIndex((dog) => dog.order === over.id);
-            setDogs((dogs) => arrayMove(dogs, oldIndex, newIndex));
+            setDogs(arrayMove(dogs, oldIndex, newIndex));
         }
     };
 
