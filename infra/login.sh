@@ -4,6 +4,12 @@
 # use `aws configure` to set up a user with the default profile`
 # call with `. ./infra/login.sh <MFA_TOKEN>`. If you leave off the first dot the env vars wont be set in your current shell.
 # Make sure to use the AWS CLI mfa code, not the AWS console one.
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    echo "ERROR: This script must be sourced, not executed."
+    echo "Run it as: . ./infra/login.sh <MFA_TOKEN>"
+    exit 1
+fi
 export AWS_PROFILE=default
 mfa_token=$1
 CREDENTIALS=$(aws sts get-session-token --serial-number "arn:aws:iam::956470542728:mfa/ProtonPass" --output json --token-code $mfa_token)
@@ -26,3 +32,5 @@ aws configure set aws_session_token "$SESSION_TOKEN" --profile "$PROFILE_NAME"
 
 export AWS_PROFILE=$PROFILE_NAME
 echo "AWS_PROFILE set to $PROFILE_NAME"
+
+echo "AWS access may be blocked by the IP whitelist."
