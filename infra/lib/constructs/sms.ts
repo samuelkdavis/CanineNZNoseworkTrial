@@ -11,6 +11,28 @@ export class SmsConstruct extends Construct {
   constructor(scope: Construct, id: string, props: DogSportsProperties) {
     super(scope, id);
 
+    // IAM role that SNS assumes to write delivery logs to CloudWatch.
+    // SNS creates its own log group at sns/<region>/<account>/DirectPublishToPhoneNumber
+    const smsLoggingRole = new iam.Role(this, "SmsLoggingRole", {
+      assumedBy: new iam.ServicePrincipal("sns.amazonaws.com"),
+      inlinePolicies: {
+        CloudWatchLogs: new iam.PolicyDocument({
+          statements: [
+            new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              actions: [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:DescribeLogStreams",
+              ],
+              resources: ["*"],
+            }),
+          ],
+        }),
+      },
+    });
+
     // SNS "SMS Preferences" are account-level settings (region-scoped).
     // CloudFormation doesn't provide a universally-supported resource type for this,
     // so we set the preferences via a custom resource calling SNS SetSMSAttributes.
@@ -24,7 +46,9 @@ export class SmsConstruct extends Construct {
           attributes: {
             DefaultSMSType: "Transactional",
             DefaultSenderID: "Nosework",
-            MonthlySpendLimit: "5", // USD
+            MonthlySpendLimit: "1",
+            DeliveryStatusIAMRole: smsLoggingRole.roleArn,
+            DeliveryStatusSuccessSamplingRate: "100",
           },
         },
         physicalResourceId: cr.PhysicalResourceId.of(`${props.namePrefix}-sms-preferences`),
@@ -36,7 +60,9 @@ export class SmsConstruct extends Construct {
           attributes: {
             DefaultSMSType: "Transactional",
             DefaultSenderID: "Nosework",
-            MonthlySpendLimit: "10",
+            MonthlySpendLimit: "1",
+            DeliveryStatusIAMRole: smsLoggingRole.roleArn,
+            DeliveryStatusSuccessSamplingRate: "100",
           },
         },
         physicalResourceId: cr.PhysicalResourceId.of(`${props.namePrefix}-sms-preferences`),
@@ -46,6 +72,11 @@ export class SmsConstruct extends Construct {
           effect: iam.Effect.ALLOW,
           actions: ["sns:SetSMSAttributes"],
           resources: ["*"],
+        }),
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: ["iam:PassRole"],
+          resources: [smsLoggingRole.roleArn],
         }),
       ]),
     });
