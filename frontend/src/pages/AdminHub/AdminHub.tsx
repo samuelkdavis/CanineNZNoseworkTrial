@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { Box, Flex, Text, Separator, Button } from "@radix-ui/themes";
+import { Box, Flex, Text, Separator } from "@radix-ui/themes";
 import WipPage from "../WipPage/WipPage";
 import ManageCallboard from "./ManageCallboard";
 import MessageTemplate from "./MessageTemplate";
+import ManageGroups from "./ManageGroups";
 import "./AdminHub.css";
 
 // ── Sidebar nav items ─────────────────────────────────────────────────────────
 
-type Section = "upload" | "callboard" | "template";
+type Section = "upload" | "groups" | "callboard" | "template";
 
 const NAV_ITEMS: { id: Section; label: string }[] = [
     { id: "upload", label: "Upload Running Order" },
+    { id: "groups", label: "Manage Groups" },
     { id: "callboard", label: "Manage Callboard" },
     { id: "template", label: "Message Template" },
 ];
@@ -40,9 +42,10 @@ export default function AdminHub() {
                 ))}
             </Box>
 
-            {/* Content — all three panels stay mounted so local state is preserved */}
+            {/* Content — all panels stay mounted so local state is preserved */}
             <Box style={{ flex: 1, minWidth: 0, overflowY: "auto" }}>
                 <Box style={{ display: active === "upload" ? "block" : "none" }}><WipPage /></Box>
+                <Box style={{ display: active === "groups" ? "block" : "none" }}><ManageGroups /></Box>
                 <Box style={{ display: active === "callboard" ? "block" : "none" }}><ManageCallboard /></Box>
                 <Box style={{ display: active === "template" ? "block" : "none" }}><MessageTemplate /></Box>
             </Box>
