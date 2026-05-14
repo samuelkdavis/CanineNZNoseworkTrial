@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import TopNav from "./components/TopNav/TopNav";
-import SettingsPage from "./pages/SettingsPage/SettingsPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import DeveloperPage from "./pages/DeveloperPage/DeveloperPage";
 import HomePage from "./pages/HomePage/HomePage";
@@ -48,7 +47,6 @@ function App() {
                                 </RequireAdmin>
                             }
                         />
-                        <Route path="/settings" element={<SettingsPage />} />
                     </Routes>
                 </BrowserRouter>
             </ServiceContext.Provider>

@@ -61,9 +61,6 @@ export default function TopNav() {
 
                 {/* Spacer to push auth section to the right */}
                 <div style={{ flex: 1 }} />
-                <NavLink href="/settings">
-                    Settings
-                </NavLink>
                 {/* Auth Section on the right */}
                 {auth.isAuthenticated || auth.error || auth.user ? (
                     <DropdownMenu.Root>
@@ -91,11 +88,6 @@ export default function TopNav() {
                             <DropdownMenu.Item onClick={() => signOutRedirect(auth)}>
                                 Sign Out
                             </DropdownMenu.Item>
-                            {auth.isAuthenticated && (
-                                <DropdownMenu.Item onClick={() => signOutRedirect(auth)}>
-                                    Sign Out
-                                </DropdownMenu.Item>
-                            )}
                         </DropdownMenu.Content>
                     </DropdownMenu.Root>
                 ) : (
