@@ -73,7 +73,7 @@ function SortableRow({ dog, index }) {
             <Table.Cell>{dog.class}</Table.Cell>
             <Table.Cell>{dog.phoneNumber}</Table.Cell>
             <Table.Cell>{dog.email}</Table.Cell>
-            <Table.Cell className="actions-cell">                
+            <Table.Cell className="actions-cell">
                 <button onClick={handleSendText} className="action-button text">Send Text</button>
                 <button onClick={handleSendEmail} className="action-button email">Send Email</button>
                 <button onClick={handleMarkFinished} className="action-button finished">Finished</button>
@@ -86,7 +86,11 @@ export default function AdminDogTable({ dogs, setDogs }: { dogs: Dog[], setDogs:
     const services = React.useContext(ServiceContext);
 
     const sensors = useSensors(
-        useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
+        useSensor(PointerSensor, {
+            // Require the pointer to move 8px before a drag starts,
+            // so normal button clicks are never intercepted.
+            activationConstraint: { distance: 8 },
+        })
     );
 
     const handleDragEnd = (event) => {
@@ -104,10 +108,11 @@ export default function AdminDogTable({ dogs, setDogs }: { dogs: Dog[], setDogs:
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
         >
-            <SortableContext items={dogs.map((dog, idx) => dog.order)} strategy={verticalListSortingStrategy}>
+            <SortableContext items={dogs.map((dog) => dog.order)} strategy={verticalListSortingStrategy}>
                 <Table.Root>
                     <Table.Header>
                         <Table.Row>
+                            <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
                             <Table.ColumnHeaderCell>Order</Table.ColumnHeaderCell>
                             <Table.ColumnHeaderCell>Dog Name</Table.ColumnHeaderCell>
                             <Table.ColumnHeaderCell>Handler Name</Table.ColumnHeaderCell>
@@ -122,7 +127,8 @@ export default function AdminDogTable({ dogs, setDogs }: { dogs: Dog[], setDogs:
                             <SortableRow key={dog.order} dog={dog} index={idx} />
                         ))}
                     </Table.Body>
-                </Table.Root></SortableContext>
+                </Table.Root>
+            </SortableContext>
         </DndContext>
     );
 }

@@ -3,7 +3,7 @@ import type { Dog } from "./Dog";
 
 export default class DogRunOrderRepository {
     async Get(): Promise<Dog[]> {
-        var response = await axios.get("https://localhost:7276/runningorder");
+        var response = await axios.get("https://localhost:17276/runningorder");
 
         return response.data;
     }
@@ -18,24 +18,24 @@ export default class DogRunOrderRepository {
                 "Content-Type": "multipart/form-data",
             }
         };
-        const response = await axios.post("https://localhost:7276/runningorder/upload", formData, headers);
+        const response = await axios.post("https://localhost:17276/runningorder/upload", formData, headers);
         return response.data;
     }
 
     async SendText(orderId: number): Promise<{ orderId: number; sentTo: string }> {
-        const response = await axios.post(`https://localhost:7276/runningorder/sendtext`, { orderId });
+        const response = await axios.post(`https://localhost:17276/runningorder/sendtext`, { orderId });
         return response.data;
     }
 
     async SendEmail(orderId: number) {
-        await axios.post(`https://localhost:7276/runningorder/sendemail`, { orderId });
+        await axios.post(`https://localhost:17276/runningorder/sendemail`, { orderId });
     }
 
     async MarkFinished(orderId: number) {
-        await axios.post(`https://localhost:7276/runningorder/markfinished`, { orderId });
+        await axios.post(`https://localhost:17276/runningorder/markfinished`, { orderId });
     }
 
     async ClearAll() {
-        await axios.delete("https://localhost:7276/runningorder/delete?areYouSure=yes");
+        await axios.delete("https://localhost:17276/runningorder/delete?areYouSure=yes");
     }
 }

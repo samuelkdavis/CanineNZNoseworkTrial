@@ -1,4 +1,4 @@
-import { Flex, TabNav, Avatar, DropdownMenu } from "@radix-ui/themes";
+import { Flex, TabNav, Avatar, DropdownMenu, Button } from "@radix-ui/themes";
 import { useAuth } from "react-oidc-context";
 import logo from "./logo backup.jpg"; // Adjust path if needed
 import { signOutRedirect, clearAuthSession, IsAdmin } from "../../Authorisation";
@@ -41,22 +41,29 @@ export default function TopNav() {
                 <NavLink href="/">
                     Home
                 </NavLink>
-                <NavLink href="/settings">
-                    Settings
-                </NavLink>
-                {isAdmin && (
-                    < NavLink href="/admin">
-                        Admin
-                    </NavLink>)}
                 <NavLink href="/running-order">
                     Running Order
                 </NavLink>
                 <NavLink href="/call-board">
                     Call Board
                 </NavLink>
+                <NavLink href="/running-order-2">
+                    Running Order 2
+                </NavLink>
+                <NavLink href="/developer">
+                    Developer
+                </NavLink>
+                {isAdmin && (
+                    <NavLink href="/admin">
+                        Admin
+                    </NavLink>
+                )}
 
                 {/* Spacer to push auth section to the right */}
                 <div style={{ flex: 1 }} />
+                <NavLink href="/settings">
+                    Settings
+                </NavLink>
                 {/* Auth Section on the right */}
                 {auth.isAuthenticated || auth.error || auth.user ? (
                     <DropdownMenu.Root>
@@ -75,8 +82,14 @@ export default function TopNav() {
                             <DropdownMenu.Label>
                                 {auth.user?.profile?.email}
                             </DropdownMenu.Label>
-                            <DropdownMenu.Item onClick={() => clearAuthSession(auth)}>
-                                Clear session
+                            <DropdownMenu.Item asChild>
+                                <a href="/admin-hub" style={{ textDecoration: "none", color: "inherit" }}>
+                                    Admin
+                                </a>
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Separator />
+                            <DropdownMenu.Item onClick={() => signOutRedirect(auth)}>
+                                Sign Out
                             </DropdownMenu.Item>
                             {auth.isAuthenticated && (
                                 <DropdownMenu.Item onClick={() => signOutRedirect(auth)}>
@@ -86,11 +99,9 @@ export default function TopNav() {
                         </DropdownMenu.Content>
                     </DropdownMenu.Root>
                 ) : (
-                    <TabNav.Link asChild>
-                        <button onClick={() => auth.signinRedirect()} disabled={auth.isLoading}>
-                            {auth.isLoading ? "Loading…" : "Log In"}
-                        </button>
-                    </TabNav.Link>
+                    <Button variant="solid" onClick={() => auth.signinRedirect()} disabled={auth.isLoading}>
+                        {auth.isLoading ? "Loading…" : "Log In"}
+                    </Button>
                 )}
             </Flex>
         </TabNav.Root >
