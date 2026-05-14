@@ -1,3 +1,8 @@
+# Diffuse
+
+![Running Order](docs/Running%20Order.png)
+
+
 # How to run
 
 ```
