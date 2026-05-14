@@ -1,6 +1,7 @@
 using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.Runtime.CredentialManagement;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Nosework.Core;
 using Nosework.Api.Models;
@@ -31,6 +32,7 @@ namespace Nosework.Api.Controllers
         }
 
         [HttpDelete("delete")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteAll([FromQuery] string areYouSure)
         {
             if (areYouSure != "yes")
@@ -42,6 +44,7 @@ namespace Nosework.Api.Controllers
         }
 
         [HttpPost("upload")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<List<Dog>>> UploadCsv(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -82,6 +85,7 @@ namespace Nosework.Api.Controllers
         }
 
         [HttpPost("sendtext")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> SendText([FromBody] SendTextRequest request, CancellationToken cancellationToken)
         {
             var order = request.OrderId;

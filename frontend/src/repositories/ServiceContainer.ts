@@ -1,6 +1,9 @@
 import DogRunOrderRepository from "./DogRunOrderRepository";
 
 export class ServiceContainer {
-    dogRunOrderRepository = new DogRunOrderRepository();
-    // Add other repositories as needed
+    dogRunOrderRepository: DogRunOrderRepository;
+
+    constructor(getToken: () => string | undefined = () => undefined) {
+        this.dogRunOrderRepository = new DogRunOrderRepository(getToken);
+    }
 }

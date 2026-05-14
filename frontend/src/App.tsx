@@ -1,5 +1,3 @@
-// App.js
-
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import TopNav from "./components/TopNav/TopNav";
 import SettingsPage from "./pages/SettingsPage/SettingsPage";
@@ -17,10 +15,12 @@ import { ServiceContainer } from "./repositories/ServiceContainer";
 import { ServiceContext } from "./repositories/ServiceContext";
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
+import { useAuth } from "react-oidc-context";
 
 
 function App() {
-    const services = new ServiceContainer();
+    const auth = useAuth();
+    const services = new ServiceContainer(() => auth.user?.access_token);
     return (
         <Theme
             appearance="light"
