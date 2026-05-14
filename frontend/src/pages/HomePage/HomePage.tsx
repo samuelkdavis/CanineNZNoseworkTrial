@@ -2,19 +2,19 @@ import React, { useEffect, useState, useContext } from "react";
 import { Box, Card, Flex, Heading, Text, Badge, Separator } from "@radix-ui/themes";
 import { ServiceContext } from "../../repositories/ServiceContext";
 import type { Dog } from "../../repositories/Dog";
-import axios from "axios";
 
 // ── Running Order Card ────────────────────────────────────────────────────────
 
 function RunningOrderCard() {
+    const services = useContext(ServiceContext);
     const [dogs, setDogs] = useState<Dog[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchDogs() {
             try {
-                const result = await axios.get("https://localhost:17276/runningorder");
-                setDogs(result.data);
+                const result = await services?.dogRunOrderRepository.Get() ?? [];
+                setDogs(result);
             } catch {
                 // silently fail — backend may not be running
             } finally {
@@ -22,7 +22,7 @@ function RunningOrderCard() {
             }
         }
         fetchDogs();
-    }, []);
+    }, [services]);
 
     return (
         <Card size="3" style={{ flex: 1, minWidth: 0 }}>

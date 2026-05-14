@@ -1,31 +1,22 @@
 import { Table } from "@radix-ui/themes";
 import AdminDogTable from "../../components/AdminDogTable/AdminDogTable";
-import React, { useEffect } from "react";
-import { LineAxisOutlined } from "@mui/icons-material";
+import React from "react";
 import useEffectAsync from "../../helpers/UseEffectAsync";
-import axios from "axios";
 import type { Dog } from "../../repositories/Dog";
+import { ServiceContext } from "../../repositories/ServiceContext";
 
 function RunningOrder() {
+    const services = React.useContext(ServiceContext);
     const [dogs, setDogs] = React.useState<Dog[]>([]);
 
-    /*
-    Payload example:
-    [
-        { "dogName": "Buddy", "handlerName": "Dennis Reynolds", "orderId": 1, "class": "Novice" },
-        { "dogName": "Rum Ham", "handlerName": "Frank Reynolds", "orderId": 2, "class": "Intermediate" }
-    ]
-    */
     useEffectAsync(async () => {
         try {
-            //todo replace usage with repository
-            const result = await axios.get('https://localhost:17276/runningorder');
-            console.log("Fetched dogs:", result.data);
-            setDogs(result.data);
+            const result = await services?.dogRunOrderRepository.Get() ?? [];
+            setDogs(result);
         } catch (error) {
             console.error("Error fetching dogs:", error);
         }
-    }, []);
+    }, [services]);
 
     return (
         <>
