@@ -1,6 +1,6 @@
 import { Flex, TabNav, Avatar, DropdownMenu, Button } from "@radix-ui/themes";
 import { useAuth } from "react-oidc-context";
-import logo from "./logo backup.jpg"; // Adjust path if needed
+import logo from "/logo.png"; // Adjust path if needed
 import { signOutRedirect, clearAuthSession, IsAdmin } from "../../Authorisation";
 import { useLocation } from "react-router-dom";
 
