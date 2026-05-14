@@ -4,7 +4,8 @@
         "dev:install-frontend": "npm install --prefix frontend",
         "dev:install-backend": "dotnet build api/Nosework/Nosework.sln",
         "start:backend": "dotnet run --project api/Nosework/Nosework.Api/Nosework.Api.csproj",
-        "start": "concurrently -k -n backend,frontend -c blue,green \"npm run dev:backend\" \"npm run dev:frontend\""
+        "start": "concurrently -k -n backend,frontend -c blue,green \"npm run dev:backend\" \"npm run dev:frontend\"",
+        "infra:deploy": "npm run cdk --prefix infra -- deploy"
     },
     "devDependencies": {
         "concurrently": "^9.2.0"
